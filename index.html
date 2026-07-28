@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LCP Horizon International — Agence de voyage</title>
 <meta name="description" content="LCP Horizon International : réservation de vols vers l'Afrique et l'international, demandes sur-mesure, et sélection de produits naturels.">
+
+<!-- Partage social (WhatsApp, Facebook, etc.) -->
+<meta property="og:title" content="LCP Horizon International — Agence de voyage">
+<meta property="og:description" content="Réservez un vol vers l'Afrique et l'international, ou faites-nous part d'une demande sur-mesure.">
+<meta property="og:image" content="https://momobouake2003-lang.github.io/lcp-horizon-site/assets/images/lcp-horizon-logo.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://momobouake2003-lang.github.io/lcp-horizon-site/">
+<meta name="theme-color" content="#0A1930">
+
 <link rel="icon" href="assets/images/lcp-horizon-logo.svg">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -48,59 +57,71 @@
     </div>
 
     <div class="destinations-track">
-      <article class="boarding-card">
-        <span class="route-code">ABJ</span>
-        <div class="route-icon"><svg viewBox="0 0 60 60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 46 L30 14 L48 46 Z"/><path d="M30 14 L30 6"/><path d="M25 8 L35 8"/><path d="M12 46 L48 46"/></svg></div>
-        <div class="route-city">Abidjan</div>
-        <div class="route-country">Côte d'Ivoire</div>
-        <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="route-from"><span>Départ Bouaké</span><span>▸</span></div>
-      </article>
+      <a href="reservation.html?destination=Abidjan" class="boarding-card">
+        <img src="assets/images/destinations/abidjan.jpg" alt="Abidjan, Côte d'Ivoire" class="dest-photo" onerror="this.style.display='none'">
+        <div class="card-body">
+          <span class="route-code">ABJ</span>
+          <div class="route-city">Abidjan</div>
+          <div class="route-country">Côte d'Ivoire</div>
+          <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="route-from"><span>Départ Bouaké</span><span>▸</span></div>
+        </div>
+      </a>
 
-      <article class="boarding-card">
-        <span class="route-code">DKR</span>
-        <div class="route-icon"><svg viewBox="0 0 60 60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="16" r="4"/><path d="M24 20 L24 34 M18 44 L24 34 L30 44"/><circle cx="38" cy="24" r="3"/><path d="M38 27 L38 36 M34 44 L38 36 L42 44"/><path d="M10 48 L50 48"/></svg></div>
-        <div class="route-city">Dakar</div>
-        <div class="route-country">Sénégal</div>
-        <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
-      </article>
+      <a href="reservation.html?destination=Dakar" class="boarding-card">
+        <img src="assets/images/destinations/dakar.jpg" alt="Dakar, Sénégal" class="dest-photo" onerror="this.style.display='none'">
+        <div class="card-body">
+          <span class="route-code">DKR</span>
+          <div class="route-city">Dakar</div>
+          <div class="route-country">Sénégal</div>
+          <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
+        </div>
+      </a>
 
-      <article class="boarding-card">
-        <span class="route-code">CMN</span>
-        <div class="route-icon"><svg viewBox="0 0 60 60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="14" width="10" height="32" rx="1"/><path d="M24 14 L29 6 L34 14"/><circle cx="29" cy="10" r="1.4" fill="var(--gold-light)" stroke="none"/><path d="M12 46 L48 46"/><path d="M18 46 L18 30 L24 30"/><path d="M42 46 L42 30 L34 30"/></svg></div>
-        <div class="route-city">Casablanca</div>
-        <div class="route-country">Maroc</div>
-        <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
-      </article>
+      <a href="reservation.html?destination=Casablanca" class="boarding-card">
+        <img src="assets/images/destinations/casablanca.jpg" alt="Casablanca, Maroc" class="dest-photo" onerror="this.style.display='none'">
+        <div class="card-body">
+          <span class="route-code">CMN</span>
+          <div class="route-city">Casablanca</div>
+          <div class="route-country">Maroc</div>
+          <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
+        </div>
+      </a>
 
-      <article class="boarding-card">
-        <span class="route-code">CDG</span>
-        <div class="route-icon"><svg viewBox="0 0 60 60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 8 L18 46 M30 8 L42 46"/><path d="M22 34 L38 34 M20 40 L40 40"/><path d="M26 20 L34 20"/><path d="M12 46 L48 46"/></svg></div>
-        <div class="route-city">Paris</div>
-        <div class="route-country">France</div>
-        <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
-      </article>
+      <a href="reservation.html?destination=Paris" class="boarding-card">
+        <img src="assets/images/destinations/paris.jpg" alt="Paris, France" class="dest-photo" onerror="this.style.display='none'">
+        <div class="card-body">
+          <span class="route-code">CDG</span>
+          <div class="route-city">Paris</div>
+          <div class="route-country">France</div>
+          <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
+        </div>
+      </a>
 
-      <article class="boarding-card">
-        <span class="route-code">DXB</span>
-        <div class="route-icon"><svg viewBox="0 0 60 60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 6 L28 46 M32 12 L32 46"/><path d="M28 6 L32 12"/><path d="M22 46 L22 34 L28 28 L32 28 L38 34 L38 46"/><path d="M12 46 L48 46"/></svg></div>
-        <div class="route-city">Dubaï</div>
-        <div class="route-country">Émirats arabes unis</div>
-        <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
-      </article>
+      <a href="reservation.html?destination=Dubaï" class="boarding-card">
+        <img src="assets/images/destinations/dubai.jpg" alt="Dubaï, Émirats arabes unis" class="dest-photo" onerror="this.style.display='none'">
+        <div class="card-body">
+          <span class="route-code">DXB</span>
+          <div class="route-city">Dubaï</div>
+          <div class="route-country">Émirats arabes unis</div>
+          <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
+        </div>
+      </a>
 
-      <article class="boarding-card">
-        <span class="route-code">IST</span>
-        <div class="route-icon"><svg viewBox="0 0 60 60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 46 L18 26 A12 12 0 0 1 42 26 L42 46"/><path d="M10 46 L10 20 M10 20 L10 12"/><path d="M50 46 L50 20 M50 20 L50 12"/><path d="M12 46 L48 46"/></svg></div>
-        <div class="route-city">Istanbul</div>
-        <div class="route-country">Turquie</div>
-        <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
-      </article>
+      <a href="reservation.html?destination=Istanbul" class="boarding-card">
+        <img src="assets/images/destinations/istanbul.jpg" alt="Istanbul, Turquie" class="dest-photo" onerror="this.style.display='none'">
+        <div class="card-body">
+          <span class="route-code">IST</span>
+          <div class="route-city">Istanbul</div>
+          <div class="route-country">Turquie</div>
+          <div class="perforation"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="route-from"><span>Vols réguliers</span><span>▸</span></div>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -198,6 +219,7 @@
     <div class="footer-bottom">
       <span>© 2026 LCP Horizon International</span>
       <span>Bouaké, Côte d'Ivoire</span>
+      <a href="mentions-legales.html" style="color:inherit;">Mentions légales</a>
     </div>
   </div>
 </footer>

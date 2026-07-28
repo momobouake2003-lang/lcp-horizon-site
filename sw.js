@@ -10,6 +10,8 @@ const ASSETS_TO_CACHE = [
   "./assets/js/booking.js",
   "./assets/js/produits.js",
   "./assets/js/produits-data.js",
+  "./assets/js/cart.js",
+  "./assets/js/panier-ui.js",
   "./assets/js/firebase-config.js",
   "./assets/images/lcp-horizon-logo.svg",
   "./manifest.json"

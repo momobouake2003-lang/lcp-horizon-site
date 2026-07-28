@@ -50,11 +50,33 @@
     <div class="footer-bottom">
       <span>© 2026 LCP Horizon International</span>
       <span>Bouaké, Côte d'Ivoire</span>
+      <a href="../mentions-legales.html" style="color:inherit;">Mentions légales</a>
     </div>
   </div>
 </footer>
 
+<!-- Bouton panier flottant -->
+<button id="panier-toggle" class="panier-fab" aria-label="Voir le panier">
+  🛒 <span id="panier-count" class="panier-badge">0</span>
+</button>
+
+<!-- Tiroir panier -->
+<div id="panier-overlay" class="panier-overlay"></div>
+<aside id="panier-drawer" class="panier-drawer">
+  <div class="panier-header">
+    <h3>Votre panier</h3>
+    <button id="panier-close" aria-label="Fermer">✕</button>
+  </div>
+  <div id="panier-items" class="panier-items"></div>
+  <div class="panier-footer">
+    <div class="panier-astuce">Commande de 5 unités ou plus sur un même produit = tarif de gros automatique.</div>
+    <div class="panier-total">Total : <span id="panier-total">0</span> FCFA</div>
+    <a id="panier-whatsapp" href="#" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;background:#3F5F44;color:#fff;">Commander sur WhatsApp</a>
+  </div>
+</aside>
+
 <script type="module" src="../assets/js/firebase-config.js"></script>
 <script type="module" src="../assets/js/produits.js"></script>
+<script type="module" src="../assets/js/panier-ui.js"></script>
 </body>
 </html>
