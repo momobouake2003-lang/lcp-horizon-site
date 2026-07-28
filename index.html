@@ -17,6 +17,33 @@
 <link rel="icon" href="assets/images/lcp-horizon-logo.svg">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="assets/css/style.css">
+
+<!-- 🔧 Patch : données structurées Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "name": "LCP Horizon International",
+  "description": "Agence de voyage — réservation de vols vers l'Afrique et l'international, demandes sur-mesure, et sélection de produits naturels.",
+  "url": "https://momobouake2003-lang.github.io/lcp-horizon-site/",
+  "logo": "https://momobouake2003-lang.github.io/lcp-horizon-site/assets/images/lcp-horizon-logo.svg",
+  "telephone": "+225-05-76-53-39-96",
+  "email": "contact@lcphorizon.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bouaké",
+    "addressCountry": "CI"
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": "Côte d'Ivoire"
+  },
+  "sameAs": [
+    "https://wa.me/2250576533996"
+  ],
+  "priceRange": "$$"
+}
+</script>
 </head>
 <body>
 
@@ -58,7 +85,7 @@
 
     <div class="destinations-track">
       <a href="reservation.html?destination=Abidjan" class="boarding-card">
-        <img src="assets/images/destinations/abidjan.jpg" alt="Abidjan, Côte d'Ivoire" class="dest-photo" onerror="this.style.display='none'">
+        <img src="assets/images/destinations/abidjan.jpg" alt="Abidjan, Côte d'Ivoire" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">ABJ</span>
           <div class="route-city">Abidjan</div>
@@ -69,7 +96,7 @@
       </a>
 
       <a href="reservation.html?destination=Dakar" class="boarding-card">
-        <img src="assets/images/destinations/dakar.jpg" alt="Dakar, Sénégal" class="dest-photo" onerror="this.style.display='none'">
+        <img src="assets/images/destinations/dakar.jpg" alt="Dakar, Sénégal" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">DKR</span>
           <div class="route-city">Dakar</div>
@@ -80,7 +107,7 @@
       </a>
 
       <a href="reservation.html?destination=Casablanca" class="boarding-card">
-        <img src="assets/images/destinations/casablanca.jpg" alt="Casablanca, Maroc" class="dest-photo" onerror="this.style.display='none'">
+        <img src="assets/images/destinations/casablanca.jpg" alt="Casablanca, Maroc" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">CMN</span>
           <div class="route-city">Casablanca</div>
@@ -91,7 +118,7 @@
       </a>
 
       <a href="reservation.html?destination=Paris" class="boarding-card">
-        <img src="assets/images/destinations/paris.jpg" alt="Paris, France" class="dest-photo" onerror="this.style.display='none'">
+        <img src="assets/images/destinations/paris.jpg" alt="Paris, France" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">CDG</span>
           <div class="route-city">Paris</div>
@@ -102,7 +129,7 @@
       </a>
 
       <a href="reservation.html?destination=Dubaï" class="boarding-card">
-        <img src="assets/images/destinations/dubai.jpg" alt="Dubaï, Émirats arabes unis" class="dest-photo" onerror="this.style.display='none'">
+        <img src="assets/images/destinations/dubai.jpg" alt="Dubaï, Émirats arabes unis" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">DXB</span>
           <div class="route-city">Dubaï</div>
@@ -113,7 +140,7 @@
       </a>
 
       <a href="reservation.html?destination=Istanbul" class="boarding-card">
-        <img src="assets/images/destinations/istanbul.jpg" alt="Istanbul, Turquie" class="dest-photo" onerror="this.style.display='none'">
+        <img src="assets/images/destinations/istanbul.jpg" alt="Istanbul, Turquie" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">IST</span>
           <div class="route-city">Istanbul</div>
@@ -162,7 +189,7 @@
     <div class="nature-grid" id="nature-preview">
       <article class="nature-card">
         <div class="nature-img" style="background:none;">
-          <img src="assets/images/produits/curcuma-poudre.jpg" alt="Curcuma en poudre" style="width:100%;height:100%;object-fit:cover;">
+          <img src="assets/images/produits/curcuma-poudre.jpg" alt="Curcuma en poudre" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div class="nature-body">
           <span class="nature-cat">Compléments &amp; plantes</span>
@@ -172,7 +199,7 @@
       </article>
       <article class="nature-card">
         <div class="nature-img" style="background:none;">
-          <img src="assets/images/produits/huile-essentielle.jpg" alt="Huile essentielle naturelle" style="width:100%;height:100%;object-fit:cover;">
+          <img src="assets/images/produits/huile-essentielle.jpg" alt="Huile essentielle naturelle" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div class="nature-body">
           <span class="nature-cat">Cosmétiques &amp; soins</span>
@@ -182,7 +209,7 @@
       </article>
       <article class="nature-card">
         <div class="nature-img" style="background:none;">
-          <img src="assets/images/produits/fruits-secs-melange.jpg" alt="Mélange de fruits secs" style="width:100%;height:100%;object-fit:cover;">
+          <img src="assets/images/produits/fruits-secs-melange.jpg" alt="Mélange de fruits secs" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div class="nature-body">
           <span class="nature-cat">Compléments &amp; plantes</span>

@@ -2,6 +2,11 @@ import { db } from "./firebase-config.js";
 import {
   collection, getDocs, addDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { EMAILJS_CONFIG } from "./emailjs-config.js";
+
+if (window.emailjs) {
+  window.emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+}
 
 const toggle = document.getElementById("mode-toggle");
 const modeDirect = document.getElementById("mode-direct");
@@ -50,11 +55,21 @@ async function chargerVols() {
 }
 chargerVols();
 
-// --- Aller-retour : masquer le champ date retour si aller simple ---
-document.getElementById("type-trajet").addEventListener("change", (e) => {
-  const champRetour = document.getElementById("champ-date-retour");
-  champRetour.style.display = e.target.value === "aller-retour" ? "block" : "none";
-});
+// Si on arrive depuis une carte destination (?destination=Dakar), on essaie
+// de présélectionner le vol correspondant dans le menu déroulant.
+const destinationVoulue = new URLSearchParams(window.location.search).get("destination");
+if (destinationVoulue) {
+  const essayerPreselection = () => {
+    const options = [...volSelect.options];
+    const match = options.find(o => o.textContent.includes(destinationVoulue));
+    if (match) volSelect.value = match.value;
+  };
+  // On attend que chargerVols() ait rempli le select
+  setTimeout(essayerPreselection, 400);
+}
+
+// (Aller-retour / masquage du champ date retour est géré dans reservation.html,
+// qui gère aussi le "required" en plus de l'affichage)
 
 // --- Validation simple ---
 function validerFormulaire(data) {
@@ -72,6 +87,8 @@ function validerFormulaire(data) {
 }
 
 // --- Soumission ---
+const btnSubmit = document.getElementById("btn-submit");
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(form);
@@ -87,6 +104,10 @@ form.addEventListener("submit", async (e) => {
 
   feedback.style.color = "#555";
   feedback.textContent = "Envoi en cours…";
+  if (btnSubmit) {
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = "Envoi en cours…";
+  }
 
   try {
     await addDoc(collection(db, "reservations"), {
@@ -94,6 +115,23 @@ form.addEventListener("submit", async (e) => {
       statut: "en_attente",
       creeLe: serverTimestamp()
     });
+
+    // Envoi de l'e-mail de confirmation (silencieux en cas d'échec :
+    // la réservation est déjà enregistrée, l'e-mail est un plus)
+    if (window.emailjs && EMAILJS_CONFIG.SERVICE_ID !== "TON_SERVICE_ID") {
+      const trajet = data.mode === "direct"
+        ? "Vol sélectionné"
+        : `${data.depart || "?"} → ${data.arrivee || "?"}`;
+      window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
+        to_email: data.email,
+        to_name: `${data.prenom} ${data.nom}`,
+        trajet: trajet,
+        date_aller: data.dateAller,
+        passagers: data.passagers,
+        mode: data.mode === "direct" ? "Réservation directe" : "Demande sur-mesure"
+      }).catch(err => console.warn("E-mail non envoyé :", err));
+    }
+
     feedback.style.color = "#3F5F44";
     feedback.textContent = "Votre demande a bien été envoyée. Nous vous contactons rapidement.";
     form.reset();
@@ -101,5 +139,10 @@ form.addEventListener("submit", async (e) => {
     console.error("Erreur envoi réservation :", err);
     feedback.style.color = "#b33535";
     feedback.textContent = "Une erreur est survenue. Réessayez ou contactez-nous sur WhatsApp.";
+  } finally {
+    if (btnSubmit) {
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = "Envoyer ma réservation";
+    }
   }
 });

@@ -132,7 +132,7 @@
 
       <div id="form-feedback" style="margin:14px 0; font-size:0.88rem;"></div>
 
-      <button type="submit" class="btn-primary" style="width:100%; margin-top:8px;">Envoyer ma réservation</button>
+      <button type="submit" id="btn-submit" class="btn-primary" style="width:100%; margin-top:8px;">Envoyer ma réservation</button>
     </form>
   </div>
 </section>
@@ -142,11 +142,53 @@
     <div class="footer-bottom">
       <span>© 2026 LCP Horizon International</span>
       <span>Bouaké, Côte d'Ivoire</span>
+      <a href="mentions-legales.html" style="color:inherit;">Mentions légales</a>
     </div>
   </div>
 </footer>
 
 <script type="module" src="assets/js/firebase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module" src="assets/js/booking.js"></script>
+
+<!-- 🔧 Patch : validation des dates -->
+<script>
+(function() {
+  const dateAller = document.getElementById('date-aller');
+  const dateRetour = document.getElementById('date-retour');
+  const typeTrajet = document.getElementById('type-trajet');
+  const champRetour = document.getElementById('champ-date-retour');
+
+  // Empêcher les dates passées
+  const today = new Date().toISOString().split('T')[0];
+  dateAller.setAttribute('min', today);
+  dateRetour.setAttribute('min', today);
+
+  // Synchroniser date retour min avec date aller
+  dateAller.addEventListener('change', function() {
+    dateRetour.setAttribute('min', this.value);
+    if (dateRetour.value && dateRetour.value < this.value) {
+      dateRetour.value = this.value;
+    }
+  });
+
+  // Afficher/masquer le champ retour selon le type de trajet
+  typeTrajet.addEventListener('change', function() {
+    if (this.value === 'aller-simple') {
+      champRetour.style.display = 'none';
+      dateRetour.removeAttribute('required');
+    } else {
+      champRetour.style.display = '';
+      dateRetour.setAttribute('required', 'required');
+    }
+  });
+  // Initialiser l'état au chargement
+  if (typeTrajet.value === 'aller-simple') {
+    champRetour.style.display = 'none';
+    dateRetour.removeAttribute('required');
+  }
+})();
+</script>
+
 </body>
 </html>

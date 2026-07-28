@@ -1,10 +1,11 @@
 // Service Worker — LCP Horizon International
 // IMPORTANT : incrémenter CACHE_VERSION à chaque modification de CSS/JS/HTML
-const CACHE_VERSION = "lcp-horizon-v2";
+const CACHE_VERSION = "lcp-horizon-v3";
 const ASSETS_TO_CACHE = [
   "./index.html",
   "./reservation.html",
   "./produits-naturels/index.html",
+  "./mentions-legales.html",
   "./assets/css/style.css",
   "./assets/js/main.js",
   "./assets/js/booking.js",
@@ -38,10 +39,12 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = event.request.url;
 
+  // Jamais de cache pour Firebase (données toujours fraîches)
   if (url.includes("firestore.googleapis.com") || url.includes("identitytoolkit")) {
     return;
   }
 
+  // Pages HTML, CSS, JS : réseau en priorité, cache seulement en secours hors-ligne
   const isCodeOuPage = event.request.mode === "navigate" ||
     url.endsWith(".html") || url.endsWith(".css") || url.endsWith(".js");
 
@@ -58,6 +61,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // Images et autres ressources statiques : cache en priorité (plus rapide)
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
   );
