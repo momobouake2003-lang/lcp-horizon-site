@@ -1,0 +1,28 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Réservations ---
+    // N'importe qui peut créer une réservation (formulaire public),
+    // mais seul un admin connecté peut les lire, modifier ou supprimer.
+    match /reservations/{reservationId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // --- Catalogue de vols ---
+    // Lecture publique (affiché sur reservation.html),
+    // écriture réservée à l'admin connecté.
+    match /vols/{volId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // --- Produits naturels (si migré vers Firestore plus tard) ---
+    match /produitsNaturels/{produitId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

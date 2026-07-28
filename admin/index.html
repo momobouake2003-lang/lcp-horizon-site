@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — LCP Horizon International</title>
+<link rel="icon" href="../assets/images/lcp-horizon-logo.svg">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  body{ background:var(--navy-deep); }
+  .admin-wrap{ max-width:960px; margin:0 auto; padding:48px 24px; }
+  #login-box{ max-width:380px; margin:80px auto; }
+  .res-table{ width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; }
+  .res-table th, .res-table td{ padding:12px 14px; font-size:0.85rem; text-align:left; border-bottom:1px solid #eee; }
+  .res-table th{ background:var(--navy); color:var(--cream); font-weight:500; letter-spacing:0.03em; }
+  .badge{ padding:4px 10px; border-radius:20px; font-size:0.72rem; letter-spacing:0.03em; }
+  .badge.en_attente{ background:#fdeecb; color:#8a6100; }
+  .badge.confirmee{ background:#dcefdc; color:#2A4030; }
+  .badge.annulee{ background:#fbdada; color:#8a2020; }
+  select.statut-select{ padding:6px 8px; border-radius:4px; border:1px solid #ccc; }
+</style>
+</head>
+<body>
+
+<div class="admin-wrap">
+  <div id="login-box" class="form-card">
+    <h2 style="margin-bottom:20px;color:var(--navy);font-size:1.3rem;">Connexion admin</h2>
+    <div class="field" style="margin-bottom:14px;">
+      <label for="admin-email">E-mail</label>
+      <input type="email" id="admin-email">
+    </div>
+    <div class="field" style="margin-bottom:18px;">
+      <label for="admin-pass">Mot de passe</label>
+      <input type="password" id="admin-pass">
+    </div>
+    <button id="login-btn" class="btn-primary" style="width:100%;">Se connecter</button>
+    <p id="login-error" style="color:#b33535;font-size:0.82rem;margin-top:10px;"></p>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <h2 style="color:var(--cream);margin-bottom:6px;">Catalogue de vols</h2>
+    <p style="color:rgba(247,244,236,0.6);margin-bottom:20px;font-size:0.88rem;">Ajoute les routes disponibles en réservation directe.</p>
+    <div class="form-card" style="margin-bottom:48px;">
+      <div class="form-row">
+        <div class="field">
+          <label for="v-depart">Ville de départ</label>
+          <input type="text" id="v-depart" placeholder="Bouaké">
+        </div>
+        <div class="field">
+          <label for="v-arrivee">Ville d'arrivée</label>
+          <input type="text" id="v-arrivee" placeholder="Dakar">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="v-compagnie">Compagnie</label>
+          <input type="text" id="v-compagnie" placeholder="Air Côte d'Ivoire">
+        </div>
+        <div class="field">
+          <label for="v-prix">Prix (FCFA)</label>
+          <input type="number" id="v-prix" placeholder="250000">
+        </div>
+      </div>
+      <button id="add-vol-btn" class="btn-primary">Ajouter ce vol</button>
+      <p id="vol-feedback" style="margin-top:10px;font-size:0.85rem;"></p>
+    </div>
+    <div style="overflow-x:auto;margin-bottom:56px;">
+      <table class="res-table" id="vols-table">
+        <thead><tr><th>Trajet</th><th>Compagnie</th><th>Prix</th><th></th></tr></thead>
+        <tbody id="vols-body"><tr><td colspan="4">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+
+    <h2 style="color:var(--cream);margin-bottom:6px;">Produits naturels</h2>
+    <p style="color:rgba(247,244,236,0.6);margin-bottom:20px;font-size:0.88rem;">Gère le catalogue affiché sur la page Produits naturels.</p>
+    <div class="form-card" style="margin-bottom:20px;">
+      <div class="form-row">
+        <div class="field">
+          <label for="p-nom">Nom du produit</label>
+          <input type="text" id="p-nom" placeholder="Curcuma en poudre">
+        </div>
+        <div class="field">
+          <label for="p-categorie">Catégorie</label>
+          <select id="p-categorie">
+            <option value="cosmetiques">Cosmétiques & soins</option>
+            <option value="complements">Compléments & plantes</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="p-prix">Prix (FCFA)</label>
+          <input type="number" id="p-prix" placeholder="2500">
+        </div>
+        <div class="field">
+          <label for="p-image">Chemin de l'image</label>
+          <input type="text" id="p-image" placeholder="assets/images/produits/mon-produit.jpg">
+        </div>
+      </div>
+      <button id="add-produit-btn" class="btn-primary">Ajouter ce produit</button>
+      <button id="seed-produits-btn" class="btn-ghost" style="border-color:#3F5F44;color:#3F5F44;margin-left:10px;">Importer le catalogue de départ (8 produits)</button>
+      <p id="produit-feedback" style="margin-top:10px;font-size:0.85rem;"></p>
+    </div>
+    <div style="overflow-x:auto;margin-bottom:56px;">
+      <table class="res-table" id="produits-table">
+        <thead><tr><th>Produit</th><th>Catégorie</th><th>Prix</th><th></th></tr></thead>
+        <tbody id="produits-body"><tr><td colspan="4">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+
+    <h2 style="color:var(--cream);margin-bottom:6px;">Réservations</h2>
+    <p style="color:rgba(247,244,236,0.6);margin-bottom:24px;font-size:0.88rem;">Toutes les demandes reçues, en temps réel.</p>
+    <div style="overflow-x:auto;">
+      <table class="res-table" id="res-table">
+        <thead>
+          <tr>
+            <th>Client</th><th>Trajet</th><th>Date</th><th>Passagers</th><th>Mode</th><th>Statut</th>
+          </tr>
+        </thead>
+        <tbody id="res-body">
+          <tr><td colspan="6">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="../assets/js/firebase-config.js"></script>
+<script type="module" src="../assets/js/admin.js"></script>
+</body>
+</html>
