@@ -8,6 +8,17 @@ if (header) {
   });
 }
 
+// Diaporama du hero (capitales/destinations en fond)
+const slides = document.querySelectorAll('.hero-slide');
+if (slides.length) {
+  let slideIndex = 0;
+  setInterval(() => {
+    slides[slideIndex].classList.remove('active');
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add('active');
+  }, 4500);
+}
+
 // Enregistrement du service worker (PWA)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

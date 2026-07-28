@@ -97,23 +97,28 @@ h1,h2,h3,.font-display{ font-family:var(--font-display); font-weight:600; letter
 }
 .nav-cta:hover{ background:var(--gold-light); transform:translateY(-1px); }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero (diaporama photo) ---------- */
 .hero{
   position:relative;
-  background:linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 55%, var(--navy-soft) 100%);
   color:var(--cream);
   padding:96px 0 120px;
   overflow:hidden;
+  min-height:560px;
+  display:flex;
+  align-items:center;
 }
-.hero::before{
-  /* ligne d'horizon dorée, écho du logo */
-  content:'';
-  position:absolute; left:50%; bottom:64px; transform:translateX(-50%);
-  width:1400px; height:1400px;
-  border:1px solid rgba(201,162,75,0.28);
-  border-radius:50%;
+.hero-slideshow{ position:absolute; inset:0; z-index:0; }
+.hero-slide{
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+  opacity:0; transition:opacity 1.8s ease;
 }
-.hero-inner{ position:relative; max-width:640px; }
+.hero-slide.active{ opacity:1; }
+.hero-overlay{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(7,17,32,0.78) 0%, rgba(10,25,48,0.72) 45%, rgba(19,42,76,0.85) 100%);
+}
+.hero-inner{ position:relative; z-index:2; max-width:640px; }
 .hero h1{
   font-size:clamp(2.4rem, 5vw, 3.6rem);
   line-height:1.12;
@@ -121,7 +126,7 @@ h1,h2,h3,.font-display{ font-family:var(--font-display); font-weight:600; letter
   color:var(--cream);
 }
 .hero h1 em{ font-style:italic; color:var(--gold-light); }
-.hero p{ font-size:1.05rem; color:rgba(247,244,236,0.78); max-width:520px; margin-bottom:36px; }
+.hero p{ font-size:1.05rem; color:rgba(247,244,236,0.85); max-width:520px; margin-bottom:36px; }
 
 .hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
 .btn-primary{
