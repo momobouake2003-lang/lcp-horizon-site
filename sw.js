@@ -1,6 +1,6 @@
 // Service Worker — LCP Horizon International
-// IMPORTANT : incrémenter CACHE_VERSION à chaque modification de CSS/JS
-const CACHE_VERSION = "lcp-horizon-v1";
+// IMPORTANT : incrémenter CACHE_VERSION à chaque modification de CSS/JS/HTML
+const CACHE_VERSION = "lcp-horizon-v2";
 const ASSETS_TO_CACHE = [
   "./index.html",
   "./reservation.html",
@@ -34,11 +34,28 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  // Réseau d'abord pour les appels Firebase, cache d'abord pour le reste
-  if (event.request.url.includes("firestore.googleapis.com") ||
-      event.request.url.includes("identitytoolkit")) {
+  const url = event.request.url;
+
+  if (url.includes("firestore.googleapis.com") || url.includes("identitytoolkit")) {
     return;
   }
+
+  const isCodeOuPage = event.request.mode === "navigate" ||
+    url.endsWith(".html") || url.endsWith(".css") || url.endsWith(".js");
+
+  if (isCodeOuPage) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_VERSION).then((cache) => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
   );
