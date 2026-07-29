@@ -955,14 +955,13 @@ body {
    ANIMATIONS AU SCROLL
    ============================================ */
 .reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  /* Effet de fondu au scroll désactivé : posait un problème d'affichage
+     (repaint) sur certains ordinateurs. Le contenu reste toujours visible. */
+  opacity: 1;
 }
 
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* ============================================
