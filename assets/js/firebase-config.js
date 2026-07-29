@@ -1,7 +1,5 @@
 // ============================================
 // LCP Horizon International — Config Firebase
-// Remplace les valeurs ci-dessous par celles de
-// ton projet Firebase (Console > Paramètres du projet)
 // ============================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -9,12 +7,13 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebas
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "TON_API_KEY",
+  apiKey: "AIzaSyDOpm_2nOn-7HbmNBMnV1KgTvHwZKIiFDU",
   authDomain: "lcp-horizon.firebaseapp.com",
   projectId: "lcp-horizon",
-  storageBucket: "lcp-horizon.appspot.com",
-  messagingSenderId: "TON_SENDER_ID",
-  appId: "TON_APP_ID"
+  storageBucket: "lcp-horizon.firebasestorage.app",
+  messagingSenderId: "880634786318",
+  appId: "1:880634786318:web:86c605758e8ef18b82825f",
+  measurementId: "G-2HEJ3MLQZQ"
 };
 
 const app = initializeApp(firebaseConfig);
