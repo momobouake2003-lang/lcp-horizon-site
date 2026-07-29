@@ -1,3 +1,13 @@
+// ============================================
+// Catalogue produits naturels — LCP Horizon
+// Catalogue statique pour démarrer rapidement.
+// (Passera sur Firestore, collection "produitsNaturels",
+// dès que tu voudras gérer ça depuis l'admin.)
+//
+// prixGros / qteGros : prix unitaire réduit appliqué automatiquement
+// dans le panier dès que la quantité atteint qteGros (commande en gros).
+// ============================================
+
 export const PRODUITS = [
   {
     nom: "Curcuma en poudre",

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://momobouake2003-lang.github.io/lcp-horizon-site/sitemap.xml

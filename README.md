@@ -116,7 +116,29 @@ Dépose la photo correspondante dans `assets/images/produits/` (nom de fichier e
 
 Le numéro utilisé pour les commandes produits et le contact (`2250576533996`) est déjà intégré dans `index.html`, `produits.js` et le footer — à changer partout si besoin.
 
-## Prochaines étapes possibles
+## 7. E-mail de confirmation automatique (EmailJS)
+
+Actuellement, une réservation s'enregistre dans Firestore mais aucun e-mail n'est envoyé au client. Pour l'activer (gratuit jusqu'à 200 e-mails/mois) :
+
+1. Crée un compte sur [emailjs.com](https://www.emailjs.com)
+2. **Email Services** → *Add new service* → connecte ta boîte Gmail/Outlook → note le **Service ID**
+3. **Email Templates** → *Create new template* → rédige le mail avec ces variables :
+   `{{to_name}}`, `{{to_email}}`, `{{trajet}}`, `{{date_aller}}`, `{{passagers}}`, `{{mode}}` → note le **Template ID**
+4. **Account → General** → copie ta **Public Key**
+5. Colle les 3 valeurs dans `assets/js/emailjs-config.js`
+6. Redéploie (`git add . && git commit -m "EmailJS" && git push`)
+
+Tant que ces valeurs restent à `TON_...`, le site fonctionne normalement mais n'envoie simplement pas d'e-mail (aucune erreur pour le client).
+
+## 8. Nom de domaine personnalisé
+
+1. Achète un domaine (ex. `lcphorizon.com`) chez un registrar (Namecheap, OVH, Google Domains…)
+2. Chez ton registrar, crée ces enregistrements DNS pointant vers GitHub Pages :
+   - 4 enregistrements `A` vers : `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - Un enregistrement `CNAME` pour `www` pointant vers `momobouake2003-lang.github.io`
+3. Sur GitHub → Settings → Pages → champ **Custom domain** → entre ton nom de domaine → Save
+4. Attends la propagation DNS (jusqu'à 24h), puis coche **Enforce HTTPS**
+
 
 - Envoi automatique d'e-mail de confirmation (EmailJS ou Firebase Cloud Functions)
 - Migration du catalogue produits vers Firestore avec gestion depuis l'admin

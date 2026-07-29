@@ -8,15 +8,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDOpm_2nOn-7HbmNBMnV1KgTvHwZKIiFDU",
+  apiKey: "TON_API_KEY",
   authDomain: "lcp-horizon.firebaseapp.com",
   projectId: "lcp-horizon",
-  storageBucket: "lcp-horizon.firebasestorage.app",
-  messagingSenderId: "880634786318",
-  appId: "1:880634786318:web:86c605758e8ef18b82825f",
-  measurementId: "G-2HEJ3MLQZQ"
+  storageBucket: "lcp-horizon.appspot.com",
+  messagingSenderId: "TON_SENDER_ID",
+  appId: "TON_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);

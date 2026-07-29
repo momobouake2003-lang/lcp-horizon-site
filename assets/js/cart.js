@@ -1,3 +1,8 @@
+// ============================================
+// Panier — LCP Horizon International
+// Stocké en localStorage (persiste entre les visites)
+// ============================================
+
 const CLE_PANIER = "lcpHorizonPanier";
 const NUMERO_WHATSAPP = "2250576533996";
 
