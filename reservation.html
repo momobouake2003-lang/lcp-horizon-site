@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<header class="site-header">
+<header class="site-header" id="site-header">
   <div class="container">
     <a href="index.html" class="brand">
       <img src="assets/images/lcp-horizon-logo.svg" alt="LCP Horizon International">
@@ -22,12 +22,15 @@
       <a href="index.html#contact">Contact</a>
     </nav>
     <a href="reservation.html" class="nav-cta">Réserver un vol</a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
-<section class="section">
+<section class="section" style="padding-top:120px;">
   <div class="container" style="max-width:760px;">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">Réservation</span>
       <h2>Réservez votre vol</h2>
       <p>Choisissez une destination de notre catalogue, ou décrivez votre demande si votre trajet n'y figure pas.</p>
@@ -38,9 +41,8 @@
       <button type="button" data-mode="demande">Demande sur-mesure</button>
     </div>
 
-    <form id="booking-form" class="form-card">
+    <form id="booking-form" class="form-card reveal">
 
-      <!-- Bloc réservation directe -->
       <div id="mode-direct">
         <div class="form-row full">
           <div class="field">
@@ -52,7 +54,6 @@
         </div>
       </div>
 
-      <!-- Bloc demande sur-mesure -->
       <div id="mode-demande" style="display:none;">
         <div class="form-row">
           <div class="field">
@@ -130,7 +131,7 @@
         </div>
       </div>
 
-      <div id="form-feedback" style="margin:14px 0; font-size:0.88rem;"></div>
+      <div id="form-feedback" style="margin:14px 0; font-size:0.88rem; text-align:center;"></div>
 
       <button type="submit" id="btn-submit" class="btn-primary" style="width:100%; margin-top:8px;">Envoyer ma réservation</button>
     </form>
@@ -141,8 +142,7 @@
   <div class="container">
     <div class="footer-bottom">
       <span>© 2026 LCP Horizon International</span>
-      <span>International</span>
-      <a href="mentions-legales.html" style="color:inherit;">Mentions légales</a>
+      <a href="mentions-legales.html">Mentions légales</a>
     </div>
   </div>
 </footer>
@@ -151,7 +151,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module" src="assets/js/booking.js"></script>
 
-<!-- 🔧 Patch : validation des dates -->
 <script>
 (function() {
   const dateAller = document.getElementById('date-aller');
@@ -159,12 +158,10 @@
   const typeTrajet = document.getElementById('type-trajet');
   const champRetour = document.getElementById('champ-date-retour');
 
-  // Empêcher les dates passées
   const today = new Date().toISOString().split('T')[0];
   dateAller.setAttribute('min', today);
   dateRetour.setAttribute('min', today);
 
-  // Synchroniser date retour min avec date aller
   dateAller.addEventListener('change', function() {
     dateRetour.setAttribute('min', this.value);
     if (dateRetour.value && dateRetour.value < this.value) {
@@ -172,7 +169,6 @@
     }
   });
 
-  // Afficher/masquer le champ retour selon le type de trajet
   typeTrajet.addEventListener('change', function() {
     if (this.value === 'aller-simple') {
       champRetour.style.display = 'none';
@@ -182,7 +178,6 @@
       dateRetour.setAttribute('required', 'required');
     }
   });
-  // Initialiser l'état au chargement
   if (typeTrajet.value === 'aller-simple') {
     champRetour.style.display = 'none';
     dateRetour.removeAttribute('required');

@@ -6,19 +6,17 @@
 <title>LCP Horizon International — Agence de voyage</title>
 <meta name="description" content="LCP Horizon International : réservation de vols vers l'Afrique et l'international, demandes sur-mesure, et sélection de produits naturels.">
 
-<!-- Partage social (WhatsApp, Facebook, etc.) -->
 <meta property="og:title" content="LCP Horizon International — Agence de voyage">
 <meta property="og:description" content="Réservez un vol vers l'Afrique et l'international, ou faites-nous part d'une demande sur-mesure.">
 <meta property="og:image" content="https://momobouake2003-lang.github.io/lcp-horizon-site/assets/images/lcp-horizon-logo.svg">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://momobouake2003-lang.github.io/lcp-horizon-site/">
-<meta name="theme-color" content="#0A1930">
+<meta name="theme-color" content="#0B1D3A">
 
 <link rel="icon" href="assets/images/lcp-horizon-logo.svg">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="assets/css/style.css">
 
-<!-- 🔧 Patch : données structurées Schema.org -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -33,16 +31,14 @@
     { "@type": "Place", "name": "Côte d'Ivoire" },
     { "@type": "Place", "name": "Maroc" }
   ],
-  "sameAs": [
-    "https://wa.me/2250576533996"
-  ],
+  "sameAs": ["https://wa.me/2250576533996"],
   "priceRange": "$$"
 }
 </script>
 </head>
 <body>
 
-<header class="site-header">
+<header class="site-header" id="site-header">
   <div class="container">
     <a href="index.html" class="brand">
       <img src="assets/images/lcp-horizon-logo.svg" alt="LCP Horizon International">
@@ -55,11 +51,14 @@
       <a href="index.html#contact">Contact</a>
     </nav>
     <a href="reservation.html" class="nav-cta">Réserver un vol</a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
 <section class="hero">
-  <div class="hero-slideshow">
+  <div class="hero-slideshow" id="hero-slideshow">
     <div class="hero-slide active" style="background-image:url('assets/images/destinations/abidjan.jpg')"></div>
     <div class="hero-slide" style="background-image:url('assets/images/destinations/dakar.jpg')"></div>
     <div class="hero-slide" style="background-image:url('assets/images/destinations/casablanca.jpg')"></div>
@@ -77,18 +76,24 @@
       <a href="reservation.html#demande" class="btn-ghost">Faire une demande</a>
     </div>
   </div>
+  <div class="scroll-indicator">
+    <span>Découvrir</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
 </section>
 
 <section class="section" id="destinations">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">Nos routes</span>
       <h2>Destinations Afrique &amp; International</h2>
       <p>Une sélection de routes que nous opérons régulièrement pour nos clients. D'autres destinations sur demande.</p>
     </div>
 
     <div class="destinations-track">
-      <a href="reservation.html?destination=Abidjan" class="boarding-card">
+      <a href="reservation.html?destination=Abidjan" class="boarding-card reveal">
         <img src="assets/images/destinations/abidjan.jpg" alt="Abidjan, Côte d'Ivoire" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">ABJ</span>
@@ -99,7 +104,7 @@
         </div>
       </a>
 
-      <a href="reservation.html?destination=Dakar" class="boarding-card">
+      <a href="reservation.html?destination=Dakar" class="boarding-card reveal">
         <img src="assets/images/destinations/dakar.jpg" alt="Dakar, Sénégal" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">DKR</span>
@@ -110,7 +115,7 @@
         </div>
       </a>
 
-      <a href="reservation.html?destination=Casablanca" class="boarding-card">
+      <a href="reservation.html?destination=Casablanca" class="boarding-card reveal">
         <img src="assets/images/destinations/casablanca.jpg" alt="Casablanca, Maroc" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">CMN</span>
@@ -121,7 +126,7 @@
         </div>
       </a>
 
-      <a href="reservation.html?destination=Paris" class="boarding-card">
+      <a href="reservation.html?destination=Paris" class="boarding-card reveal">
         <img src="assets/images/destinations/paris.jpg" alt="Paris, France" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">CDG</span>
@@ -132,7 +137,7 @@
         </div>
       </a>
 
-      <a href="reservation.html?destination=Dubaï" class="boarding-card">
+      <a href="reservation.html?destination=Dubaï" class="boarding-card reveal">
         <img src="assets/images/destinations/dubai.jpg" alt="Dubaï, Émirats arabes unis" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">DXB</span>
@@ -143,7 +148,7 @@
         </div>
       </a>
 
-      <a href="reservation.html?destination=Istanbul" class="boarding-card">
+      <a href="reservation.html?destination=Istanbul" class="boarding-card reveal">
         <img src="assets/images/destinations/istanbul.jpg" alt="Istanbul, Turquie" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
         <div class="card-body">
           <span class="route-code">IST</span>
@@ -159,22 +164,22 @@
 
 <section class="section section--dark">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">Comment ça marche</span>
       <h2>Deux façons de voyager avec nous</h2>
     </div>
     <div class="how-grid">
-      <div class="how-item">
+      <div class="how-item reveal">
         <span class="eyebrow">Réservation directe</span>
         <h3>Vous choisissez une destination</h3>
         <p>Sélectionnez une route parmi notre catalogue, indiquez vos dates et le nombre de passagers. Confirmation rapide de notre équipe.</p>
       </div>
-      <div class="how-item">
+      <div class="how-item reveal">
         <span class="eyebrow">Demande sur-mesure</span>
         <h3>Votre trajet n'est pas listé ?</h3>
         <p>Décrivez votre besoin (destination, dates flexibles, groupe) — nous revenons vers vous avec une proposition adaptée.</p>
       </div>
-      <div class="how-item">
+      <div class="how-item reveal">
         <span class="eyebrow">Suivi</span>
         <h3>Statut en temps réel</h3>
         <p>En attente, confirmée ou annulée — vous êtes informé à chaque étape par e-mail ou WhatsApp.</p>
@@ -185,15 +190,15 @@
 
 <section class="section section--nature">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">Aussi chez LCP Horizon</span>
       <h2>Sélection de produits naturels</h2>
       <p>Cosmétiques et compléments naturels choisis avec soin, à retrouver avant votre départ ou à votre retour.</p>
     </div>
     <div class="nature-grid" id="nature-preview">
-      <article class="nature-card">
-        <div class="nature-img" style="background:none;">
-          <img src="assets/images/produits/curcuma-poudre.jpg" alt="Curcuma en poudre" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+      <article class="nature-card reveal">
+        <div class="nature-img">
+          <img src="assets/images/produits/curcuma-poudre.jpg" alt="Curcuma en poudre" loading="lazy">
         </div>
         <div class="nature-body">
           <span class="nature-cat">Compléments &amp; plantes</span>
@@ -201,9 +206,9 @@
           <div class="nature-price">2 500 FCFA</div>
         </div>
       </article>
-      <article class="nature-card">
-        <div class="nature-img" style="background:none;">
-          <img src="assets/images/produits/huile-essentielle.jpg" alt="Huile essentielle naturelle" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+      <article class="nature-card reveal">
+        <div class="nature-img">
+          <img src="assets/images/produits/huile-essentielle.jpg" alt="Huile essentielle naturelle" loading="lazy">
         </div>
         <div class="nature-body">
           <span class="nature-cat">Cosmétiques &amp; soins</span>
@@ -211,9 +216,9 @@
           <div class="nature-price">5 000 FCFA</div>
         </div>
       </article>
-      <article class="nature-card">
-        <div class="nature-img" style="background:none;">
-          <img src="assets/images/produits/fruits-secs-melange.jpg" alt="Mélange de fruits secs" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+      <article class="nature-card reveal">
+        <div class="nature-img">
+          <img src="assets/images/produits/fruits-secs-melange.jpg" alt="Mélange de fruits secs" loading="lazy">
         </div>
         <div class="nature-body">
           <span class="nature-cat">Compléments &amp; plantes</span>
@@ -222,8 +227,8 @@
         </div>
       </article>
     </div>
-    <div style="margin-top:32px;">
-      <a href="produits-naturels/index.html" class="btn-ghost" style="border-color:#3F5F44;color:#2A4030;">Voir tous les produits naturels</a>
+    <div style="margin-top:48px; text-align:center;">
+      <a href="produits-naturels/index.html" class="btn-ghost" style="border-color:var(--navy);color:var(--navy);">Voir tous les produits naturels</a>
     </div>
   </div>
 </section>
@@ -233,7 +238,7 @@
     <div class="footer-grid">
       <div>
         <h4>LCP Horizon International</h4>
-        <p style="max-width:320px;font-size:0.86rem;">Agence de voyage — réservation de vols et demandes sur-mesure, avec une sélection de produits naturels.</p>
+        <p style="max-width:320px;">Agence de voyage — réservation de vols et demandes sur-mesure, avec une sélection de produits naturels.</p>
       </div>
       <div>
         <h4>Navigation</h4>
@@ -246,13 +251,13 @@
         <a href="https://wa.me/2250576533996" target="_blank" rel="noopener">WhatsApp</a>
         <a href="mailto:contact@lcphorizon.com">contact@lcphorizon.com</a>
         <a href="tel:+212664903736">+212 664-903736</a>
-        <span style="display:block;padding:5px 0;font-size:0.86rem;">Zone Abidjan (Yopougon)</span>
-        <span style="display:block;padding:5px 0;font-size:0.86rem;">Zone Maroc (Casablanca)</span>
+        <span style="display:block;padding:6px 0;font-size:0.85rem;color:rgba(255,255,255,0.35);">Zone Abidjan (Yopougon)</span>
+        <span style="display:block;padding:2px 0;font-size:0.85rem;color:rgba(255,255,255,0.35);">Zone Maroc (Casablanca)</span>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 LCP Horizon International</span>
-      <a href="mentions-legales.html" style="color:inherit;">Mentions légales</a>
+      <a href="mentions-legales.html">Mentions légales</a>
     </div>
   </div>
 </footer>
