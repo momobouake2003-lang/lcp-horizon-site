@@ -1062,3 +1062,49 @@ body {
 @media (max-width: 640px) {
   .panier-fab { bottom: 18px; right: 18px; }
 }
+/* ============================================
+   CARTES DE VOL (filtres réservation)
+   ============================================ */
+.vol-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--border, #e2ddd0);
+  border-radius: var(--radius-sm, 8px);
+  background: #fff;
+  cursor: pointer;
+  transition: var(--transition, all .2s ease);
+}
+.vol-card:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow, 0 4px 12px rgba(11,29,58,0.08));
+}
+.vol-card.selected {
+  border-color: var(--gold);
+  background: rgba(201,162,75,0.06);
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.vol-card .vol-route {
+  font-weight: 600;
+  color: var(--navy);
+  font-size: 0.95rem;
+}
+.vol-card .vol-compagnie {
+  font-size: 0.78rem;
+  color: var(--text-light, #888);
+  margin-top: 2px;
+}
+.vol-card .vol-prix {
+  font-weight: 700;
+  color: var(--gold-dark, var(--gold));
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.vols-liste-vide {
+  color: var(--text-light, #888);
+  font-size: 0.9rem;
+  padding: 18px 0;
+  text-align: center;
+}

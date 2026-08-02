@@ -44,14 +44,37 @@
     <form id="booking-form" class="form-card reveal">
 
       <div id="mode-direct">
-        <div class="form-row full">
+        <div class="field" style="margin-bottom:16px;">
+          <label for="vol-recherche">Rechercher une destination</label>
+          <input type="text" id="vol-recherche" placeholder="Ex. Dakar, Casablanca...">
+        </div>
+
+        <div class="form-row">
           <div class="field">
-            <label for="vol">Destination</label>
-            <select id="vol" name="vol">
-              <option value="">Chargement des vols…</option>
-            </select>
+            <label for="vol-prix-min">Prix minimum (FCFA)</label>
+            <input type="number" id="vol-prix-min" min="0" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="vol-prix-max">Prix maximum (FCFA)</label>
+            <input type="number" id="vol-prix-max" min="0" placeholder="Aucun maximum">
           </div>
         </div>
+
+        <div class="field" style="margin-bottom:20px;">
+          <label for="vol-tri">Trier par</label>
+          <select id="vol-tri">
+            <option value="defaut">Pertinence</option>
+            <option value="prix-asc">Prix croissant</option>
+            <option value="prix-desc">Prix décroissant</option>
+          </select>
+        </div>
+
+        <div id="vols-liste" style="display:flex; flex-direction:column; gap:10px; margin-bottom:8px;">
+          <p style="color:var(--text-light,#888);font-size:0.9rem;">Chargement des vols…</p>
+        </div>
+
+        <!-- Champ réel utilisé pour la soumission du formulaire -->
+        <select id="vol" name="vol" required style="display:none;"></select>
       </div>
 
       <div id="mode-demande" style="display:none;">

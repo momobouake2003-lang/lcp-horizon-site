@@ -32,40 +32,103 @@ toggle.addEventListener("click", (e) => {
   volSelect.required = isDirect;
 });
 
-// --- Chargement du catalogue de vols (collection "vols") ---
+// --- Chargement + filtrage du catalogue de vols (collection "vols") ---
+const volsListe = document.getElementById("vols-liste");
+const rechercheInput = document.getElementById("vol-recherche");
+const prixMinInput = document.getElementById("vol-prix-min");
+const prixMaxInput = document.getElementById("vol-prix-max");
+const triSelect = document.getElementById("vol-tri");
+
+let tousLesVols = [];
+
+function texteVol(v) {
+  return `${v.villeDepart} → ${v.villeArrivee} — ${v.compagnie || ""} (${v.prix ? v.prix + " FCFA" : "prix sur demande"})`;
+}
+
+function selectionnerVol(id) {
+  volSelect.value = id;
+  document.querySelectorAll(".vol-card").forEach(c => {
+    c.classList.toggle("selected", c.dataset.id === id);
+  });
+}
+
+function rendreVolsFiltres() {
+  const recherche = (rechercheInput.value || "").toLowerCase().trim();
+  const prixMin = parseFloat(prixMinInput.value) || 0;
+  const prixMax = parseFloat(prixMaxInput.value) || Infinity;
+  const tri = triSelect.value;
+
+  let liste = tousLesVols.filter(v => {
+    const texte = `${v.villeDepart} ${v.villeArrivee} ${v.compagnie || ""}`.toLowerCase();
+    const correspondRecherche = !recherche || texte.includes(recherche);
+    const prix = v.prix ? Number(v.prix) : 0;
+    const correspondPrix = (!v.prix) || (prix >= prixMin && prix <= prixMax);
+    return correspondRecherche && correspondPrix;
+  });
+
+  if (tri === "prix-asc") liste.sort((a, b) => (Number(a.prix) || 0) - (Number(b.prix) || 0));
+  if (tri === "prix-desc") liste.sort((a, b) => (Number(b.prix) || 0) - (Number(a.prix) || 0));
+
+  if (!liste.length) {
+    volsListe.innerHTML = `<p class="vols-liste-vide">Aucun vol ne correspond à ta recherche.</p>`;
+    return;
+  }
+
+  const selectionActuelle = volSelect.value;
+  volsListe.innerHTML = liste.map(v => `
+    <div class="vol-card${v.id === selectionActuelle ? ' selected' : ''}" data-id="${v.id}">
+      <div>
+        <div class="vol-route">${v.villeDepart} → ${v.villeArrivee}</div>
+        <div class="vol-compagnie">${v.compagnie || "Compagnie non précisée"}</div>
+      </div>
+      <div class="vol-prix">${v.prix ? v.prix + " FCFA" : "Sur demande"}</div>
+    </div>
+  `).join("");
+
+  volsListe.querySelectorAll(".vol-card").forEach(card => {
+    card.addEventListener("click", () => selectionnerVol(card.dataset.id));
+  });
+}
+
+[rechercheInput, prixMinInput, prixMaxInput].forEach(el =>
+  el.addEventListener("input", rendreVolsFiltres)
+);
+triSelect.addEventListener("change", rendreVolsFiltres);
+
 async function chargerVols() {
-  volSelect.innerHTML = "";
+  volsListe.innerHTML = `<p class="vols-liste-vide">Chargement des vols…</p>`;
   try {
     const snap = await getDocs(collection(db, "vols"));
     if (snap.empty) {
-      volSelect.innerHTML = `<option value="">Aucun vol disponible pour le moment</option>`;
+      volsListe.innerHTML = `<p class="vols-liste-vide">Aucun vol disponible pour le moment.</p>`;
       return;
     }
-    snap.forEach(doc => {
-      const v = doc.data();
-      const opt = document.createElement("option");
-      opt.value = doc.id;
-      opt.textContent = `${v.villeDepart} → ${v.villeArrivee} — ${v.compagnie || ""} (${v.prix ? v.prix + " FCFA" : "prix sur demande"})`;
-      volSelect.appendChild(opt);
-    });
+    tousLesVols = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    // Champ caché conservé pour la soumission du formulaire
+    volSelect.innerHTML = tousLesVols
+      .map(v => `<option value="${v.id}">${texteVol(v)}</option>`)
+      .join("");
+
+    rendreVolsFiltres();
   } catch (err) {
     console.error("Erreur chargement vols :", err);
-    volSelect.innerHTML = `<option value="">Catalogue indisponible — réessayez plus tard</option>`;
+    volsListe.innerHTML = `<p class="vols-liste-vide">Catalogue indisponible — réessayez plus tard.</p>`;
   }
 }
 chargerVols();
 
 // Si on arrive depuis une carte destination (?destination=Dakar), on essaie
-// de présélectionner le vol correspondant dans le menu déroulant.
+// de présélectionner le vol correspondant.
 const destinationVoulue = new URLSearchParams(window.location.search).get("destination");
 if (destinationVoulue) {
   const essayerPreselection = () => {
-    const options = [...volSelect.options];
-    const match = options.find(o => o.textContent.includes(destinationVoulue));
-    if (match) volSelect.value = match.value;
+    const match = tousLesVols.find(v =>
+      `${v.villeDepart} ${v.villeArrivee}`.toLowerCase().includes(destinationVoulue.toLowerCase())
+    );
+    if (match) selectionnerVol(match.id);
   };
-  // On attend que chargerVols() ait rempli le select
-  setTimeout(essayerPreselection, 400);
+  setTimeout(essayerPreselection, 500);
 }
 
 // (Aller-retour / masquage du champ date retour est géré dans reservation.html,
@@ -120,8 +183,8 @@ form.addEventListener("submit", async (e) => {
     // la réservation est déjà enregistrée, l'e-mail est un plus)
     if (window.emailjs && EMAILJS_CONFIG.SERVICE_ID !== "TON_SERVICE_ID") {
       const trajet = data.mode === "direct"
-  ? volSelect.options[volSelect.selectedIndex].textContent
-  : `${data.depart || "?"} → ${data.arrivee || "?"}`;
+        ? volSelect.options[volSelect.selectedIndex].textContent
+        : `${data.depart || "?"} → ${data.arrivee || "?"}`;
       window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
         to_email: data.email,
         to_name: `${data.prenom} ${data.nom}`,
@@ -129,8 +192,7 @@ form.addEventListener("submit", async (e) => {
         date_aller: data.dateAller,
         passagers: data.passagers,
         mode: data.mode === "direct" ? "Réservation directe" : "Demande sur-mesure"
-      }).then(() => alert("E-mail envoyé avec succès !"))
-      .catch(err => alert("ERREUR e-mail : " + JSON.stringify(err)));
+      }).catch(err => console.warn("E-mail non envoyé :", err));
     }
 
     feedback.style.color = "#3F5F44";
