@@ -47,9 +47,155 @@
     <nav class="main-nav">
       <a href="index.html#destinations">Destinations</a>
       <a href="reservation.html">Réservation</a>
+      <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — LCP Horizon International</title>
+<meta name="description" content="Questions fréquentes sur les réservations, paiements, annulations et livraisons chez LCP Horizon International.">
+<link rel="icon" href="assets/images/lcp-horizon-logo.svg">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .faq-item{ border-bottom:1px solid var(--border,#e2ddd0); }
+  .faq-question{
+    width:100%; display:flex; justify-content:space-between; align-items:center;
+    padding:20px 4px; background:none; border:none; cursor:pointer;
+    font-family:var(--font-display); font-size:1.02rem; color:var(--navy); text-align:left;
+  }
+  .faq-question .faq-icon{ font-size:1.3rem; color:var(--gold); transition:transform .25s ease; flex-shrink:0; margin-left:14px; }
+  .faq-item.ouvert .faq-icon{ transform:rotate(45deg); }
+  .faq-answer{
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+    color:var(--text-light,#666); font-size:0.92rem; line-height:1.7;
+  }
+  .faq-answer p{ padding:0 4px 20px; }
+  .faq-item.ouvert .faq-answer{ max-height:300px; }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <img src="assets/images/lcp-horizon-logo.svg" alt="LCP Horizon International">
+      <span class="brand-text"><strong>LCP Horizon</strong><span>International</span></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html#destinations">Destinations</a>
+      <a href="reservation.html">Réservation</a>
       <a href="produits-naturels/index.html">Produits naturels</a>
+      <a href="a-propos.html">À propos</a>
+      <a href="faq.html">FAQ</a>
       <a href="index.html#contact">Contact</a>
     </nav>
+    <a href="reservation.html" class="nav-cta">Réserver un vol</a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="section" style="padding-top:140px;">
+  <div class="container" style="max-width:780px;">
+    <div class="section-head reveal">
+      <span class="eyebrow">Besoin d'aide</span>
+      <h2>Questions fréquentes</h2>
+      <p>Tu ne trouves pas ta réponse ? Contacte-nous directement sur WhatsApp.</p>
+    </div>
+
+    <div id="faq-liste" class="reveal">
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Combien de temps pour recevoir une confirmation ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Dès l'envoi de ta demande, tu reçois un e-mail automatique de confirmation de réception. Notre équipe te recontacte ensuite pour valider définitivement ta réservation, généralement sous 24h.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Quels moyens de paiement acceptez-vous ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Le paiement se fait actuellement en direct avec notre équipe (WhatsApp, virement ou espèces selon la zone), après confirmation de ta réservation. Le paiement en ligne sur le site arrive prochainement.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Puis-je annuler ou modifier ma réservation ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Oui, contacte-nous dès que possible par WhatsApp ou e-mail. Une réservation encore "en attente" peut être modifiée librement. Une fois "confirmée", les conditions dépendent de la compagnie aérienne concernée — nous t'informons au cas par cas.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Quels documents sont nécessaires pour voyager ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Un passeport valide au minimum 6 mois après la date de retour, et selon la destination, un visa ou une autorisation électronique. Nous t'indiquons les documents précis nécessaires dès la confirmation de ton trajet.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Livrez-vous les produits naturels partout ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>La remise se fait actuellement dans nos deux zones (Abidjan/Yopougon et Casablanca), à convenir directement avec toi via WhatsApp après ta commande.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Comment vous contacter en cas d'urgence ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Le plus rapide est WhatsApp — clique sur le bouton en bas de page ou dans le pied de page du site. Tu peux aussi appeler directement au +212 664-903736.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:40px;text-align:center;">
+      <a href="https://wa.me/2250576533996" target="_blank" rel="noopener" class="btn-ghost" style="border-color:var(--navy);color:var(--navy);">Nous contacter sur WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 LCP Horizon International</span>
+      <a href="mentions-legales.html">Mentions légales</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+document.querySelectorAll('.faq-question').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = btn.closest('.faq-item');
+    var etaitOuvert = item.classList.contains('ouvert');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('ouvert'); });
+    if (!etaitOuvert) item.classList.add('ouvert');
+  });
+});
+</script>
+</body>
+</html>
     <a href="reservation.html" class="nav-cta">Réserver un vol</a>
     <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -244,6 +390,8 @@
         <h4>Navigation</h4>
         <a href="reservation.html">Réserver un vol</a>
         <a href="produits-naturels/index.html">Produits naturels</a>
+        <a href="a-propos.html">À propos</a>
+        <a href="faq.html">FAQ</a>
         <a href="admin/index.html">Espace admin</a>
       </div>
       <div>
