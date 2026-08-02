@@ -120,8 +120,8 @@ form.addEventListener("submit", async (e) => {
     // la réservation est déjà enregistrée, l'e-mail est un plus)
     if (window.emailjs && EMAILJS_CONFIG.SERVICE_ID !== "TON_SERVICE_ID") {
       const trajet = data.mode === "direct"
-        ? "Vol sélectionné"
-        : `${data.depart || "?"} → ${data.arrivee || "?"}`;
+  ? volSelect.options[volSelect.selectedIndex].textContent
+  : `${data.depart || "?"} → ${data.arrivee || "?"}`;
       window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
         to_email: data.email,
         to_name: `${data.prenom} ${data.nom}`,
