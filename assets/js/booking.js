@@ -129,7 +129,8 @@ form.addEventListener("submit", async (e) => {
         date_aller: data.dateAller,
         passagers: data.passagers,
         mode: data.mode === "direct" ? "Réservation directe" : "Demande sur-mesure"
-      }).catch(err => console.warn("E-mail non envoyé :", err));
+      }).then(() => alert("E-mail envoyé avec succès !"))
+      .catch(err => alert("ERREUR e-mail : " + JSON.stringify(err)));
     }
 
     feedback.style.color = "#3F5F44";
