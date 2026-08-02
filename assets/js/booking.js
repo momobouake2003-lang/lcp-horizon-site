@@ -118,15 +118,23 @@ async function chargerVols() {
 }
 chargerVols();
 
-// Si on arrive depuis une carte destination (?destination=Dakar), on essaie
-// de présélectionner le vol correspondant.
+// Si on arrive depuis une carte destination (?destination=Dakar), on
+// pré-remplit la recherche (pour filtrer visuellement la liste) et on
+// présélectionne automatiquement le vol correspondant.
 const destinationVoulue = new URLSearchParams(window.location.search).get("destination");
 if (destinationVoulue) {
+  rechercheInput.value = destinationVoulue;
+
   const essayerPreselection = () => {
+    rendreVolsFiltres();
     const match = tousLesVols.find(v =>
       `${v.villeDepart} ${v.villeArrivee}`.toLowerCase().includes(destinationVoulue.toLowerCase())
     );
-    if (match) selectionnerVol(match.id);
+    if (match) {
+      selectionnerVol(match.id);
+      feedback.style.color = "#3F5F44";
+      feedback.textContent = `Vol vers ${destinationVoulue} présélectionné — vérifie les détails et complète le formulaire.`;
+    }
   };
   setTimeout(essayerPreselection, 500);
 }
