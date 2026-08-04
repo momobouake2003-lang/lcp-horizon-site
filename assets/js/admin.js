@@ -1,6 +1,7 @@
-import { db, auth } from "./firebase-config.js";
+import { db, auth, storage } from "./firebase-config.js";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 import { PRODUITS } from "./produits-data.js";
 
 const loginBox = document.getElementById("login-box");
@@ -136,11 +137,63 @@ const addProduitBtn = document.getElementById("add-produit-btn");
 const seedProduitsBtn = document.getElementById("seed-produits-btn");
 const produitFeedback = document.getElementById("produit-feedback");
 
+// --- Choix du mode d'image : fichier local ou lien externe ---
+const btnModeFichier = document.getElementById("p-image-mode-fichier");
+const btnModeUrl = document.getElementById("p-image-mode-url");
+const blocFichier = document.getElementById("p-image-bloc-fichier");
+const blocUrl = document.getElementById("p-image-bloc-url");
+const inputFichier = document.getElementById("p-image-fichier");
+const inputUrl = document.getElementById("p-image-url");
+const apercuImage = document.getElementById("p-image-apercu");
+let modeImage = "fichier";
+
+btnModeFichier.addEventListener("click", () => {
+  modeImage = "fichier";
+  btnModeFichier.classList.add("active"); btnModeFichier.style.background = "var(--navy)"; btnModeFichier.style.color = "#fff";
+  btnModeUrl.classList.remove("active"); btnModeUrl.style.background = "#fff"; btnModeUrl.style.color = "var(--navy)";
+  blocFichier.style.display = "block"; blocUrl.style.display = "none";
+  apercuImage.innerHTML = "";
+});
+btnModeUrl.addEventListener("click", () => {
+  modeImage = "url";
+  btnModeUrl.classList.add("active"); btnModeUrl.style.background = "var(--navy)"; btnModeUrl.style.color = "#fff";
+  btnModeFichier.classList.remove("active"); btnModeFichier.style.background = "#fff"; btnModeFichier.style.color = "var(--navy)";
+  blocUrl.style.display = "block"; blocFichier.style.display = "none";
+  apercuImage.innerHTML = "";
+});
+
+inputFichier.addEventListener("change", () => {
+  const fichier = inputFichier.files[0];
+  if (!fichier) { apercuImage.innerHTML = ""; return; }
+  const url = URL.createObjectURL(fichier);
+  apercuImage.innerHTML = `<img src="${url}" style="max-width:140px;max-height:140px;border-radius:8px;object-fit:cover;">`;
+});
+inputUrl.addEventListener("input", () => {
+  const val = inputUrl.value.trim();
+  apercuImage.innerHTML = val
+    ? `<img src="${val}" style="max-width:140px;max-height:140px;border-radius:8px;object-fit:cover;" onerror="this.style.display='none'">`
+    : "";
+});
+
+async function obtenirUrlImage() {
+  if (modeImage === "url") {
+    return inputUrl.value.trim();
+  }
+  const fichier = inputFichier.files[0];
+  if (!fichier) return "";
+  if (fichier.size > 5 * 1024 * 1024) {
+    throw new Error("Image trop lourde (max 5 Mo).");
+  }
+  const nomFichier = `produits/${Date.now()}-${fichier.name.replace(/\s+/g, "-")}`;
+  const storageRef = ref(storage, nomFichier);
+  await uploadBytes(storageRef, fichier);
+  return await getDownloadURL(storageRef);
+}
+
 addProduitBtn.addEventListener("click", async () => {
   const nom = document.getElementById("p-nom").value.trim();
   const categorie = document.getElementById("p-categorie").value;
   const prix = document.getElementById("p-prix").value.trim();
-  const image = document.getElementById("p-image").value.trim();
 
   if (!nom) {
     produitFeedback.style.color = "#b33535";
@@ -148,17 +201,28 @@ addProduitBtn.addEventListener("click", async () => {
     return;
   }
 
+  addProduitBtn.disabled = true;
+  produitFeedback.style.color = "#555";
+  produitFeedback.textContent = modeImage === "fichier" && inputFichier.files[0]
+    ? "Envoi de l'image en cours…"
+    : "Ajout en cours…";
+
   try {
+    const image = await obtenirUrlImage();
     await addDoc(collection(db, "produitsNaturels"), { nom, categorie, prix, image });
     produitFeedback.style.color = "#3F5F44";
     produitFeedback.textContent = "Produit ajouté.";
     document.getElementById("p-nom").value = "";
     document.getElementById("p-prix").value = "";
-    document.getElementById("p-image").value = "";
+    inputFichier.value = "";
+    inputUrl.value = "";
+    apercuImage.innerHTML = "";
   } catch (err) {
     produitFeedback.style.color = "#b33535";
-    produitFeedback.textContent = "Erreur lors de l'ajout.";
+    produitFeedback.textContent = "Erreur lors de l'ajout : " + err.message;
     console.error(err);
+  } finally {
+    addProduitBtn.disabled = false;
   }
 });
 

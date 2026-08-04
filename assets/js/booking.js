@@ -132,6 +132,7 @@ if (destinationVoulue) {
     );
     if (match) {
       selectionnerVol(match.id);
+      // Message clair pour confirmer visuellement le choix
       feedback.style.color = "#3F5F44";
       feedback.textContent = `Vol vers ${destinationVoulue} présélectionné — vérifie les détails et complète le formulaire.`;
     }

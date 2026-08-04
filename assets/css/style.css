@@ -1062,6 +1062,7 @@ body {
 @media (max-width: 640px) {
   .panier-fab { bottom: 18px; right: 18px; }
 }
+
 /* ============================================
    CARTES DE VOL (filtres réservation)
    ============================================ */
@@ -1107,4 +1108,92 @@ body {
   font-size: 0.9rem;
   padding: 18px 0;
   text-align: center;
+}
+
+/* ============================================
+   PAGES DESTINATION
+   ============================================ */
+.dest-hero {
+  position: relative;
+  height: 46vh;
+  min-height: 320px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+}
+.dest-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11,29,58,0.15) 0%, rgba(11,29,58,0.85) 100%);
+}
+.dest-hero-content {
+  position: relative; z-index: 2;
+  padding: 40px 0;
+  color: #fff;
+  width: 100%;
+}
+.dest-hero-content .eyebrow { color: var(--gold-light, var(--gold)); }
+.dest-hero-content h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  margin: 10px 0 0;
+  color: #fff;
+}
+
+.dest-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 32px 0;
+}
+.dest-gallery img {
+  width: 100%; height: 180px; object-fit: cover;
+  border-radius: var(--radius-sm, 8px);
+}
+
+.dest-infos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin: 32px 0 40px;
+}
+.dest-info-card {
+  background: #fff;
+  border: 1px solid var(--border, #e2ddd0);
+  border-radius: var(--radius-sm, 8px);
+  padding: 22px;
+}
+.dest-info-card .dest-info-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+.dest-info-card h4 {
+  font-family: var(--font-display);
+  color: var(--navy);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.dest-info-card p { font-size: 0.88rem; color: var(--text-light, #666); line-height: 1.6; }
+
+.dest-price-cta {
+  background: var(--navy);
+  color: #fff;
+  border-radius: var(--radius-lg, 14px);
+  padding: 40px;
+  text-align: center;
+  margin: 40px 0;
+}
+.dest-price-cta .dest-price {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--gold-light, var(--gold));
+  margin: 10px 0 22px;
+}
+.dest-price-cta .dest-price small {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.7);
+  font-family: var(--font-body);
+}
+
+@media (max-width: 640px) {
+  .dest-hero { height: 38vh; }
+  .dest-price-cta { padding: 28px 20px; }
 }

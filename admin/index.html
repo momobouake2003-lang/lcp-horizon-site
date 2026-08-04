@@ -92,12 +92,28 @@
           <label for="p-prix">Prix (FCFA)</label>
           <input type="number" id="p-prix" placeholder="2500">
         </div>
-        <div class="field">
-          <label for="p-image">Chemin de l'image</label>
-          <input type="text" id="p-image" placeholder="assets/images/produits/mon-produit.jpg">
-        </div>
+        <div class="field"></div>
       </div>
-      <button id="add-produit-btn" class="btn-primary">Ajouter ce produit</button>
+
+      <div class="field" style="margin-top:14px;">
+        <label>Image du produit</label>
+        <div style="display:flex;gap:0;border:1px solid #ccc;border-radius:4px;overflow:hidden;width:fit-content;margin-bottom:10px;">
+          <button type="button" id="p-image-mode-fichier" class="img-mode-btn active" style="padding:8px 16px;border:none;background:var(--navy);color:#fff;font-size:0.8rem;cursor:pointer;">Depuis mon ordinateur</button>
+          <button type="button" id="p-image-mode-url" class="img-mode-btn" style="padding:8px 16px;border:none;background:#fff;color:var(--navy);font-size:0.8rem;cursor:pointer;">Coller un lien (Google...)</button>
+        </div>
+
+        <div id="p-image-bloc-fichier">
+          <input type="file" id="p-image-fichier" accept="image/*">
+          <p style="font-size:0.76rem;color:#888;margin-top:6px;">Formats acceptés : JPG, PNG, WEBP — 5 Mo max</p>
+        </div>
+        <div id="p-image-bloc-url" style="display:none;">
+          <input type="text" id="p-image-url" placeholder="https://exemple.com/mon-image.jpg">
+          <p style="font-size:0.76rem;color:#888;margin-top:6px;">Astuce : sur Google Images, clic droit sur la photo → "Copier l'adresse de l'image"</p>
+        </div>
+        <div id="p-image-apercu" style="margin-top:10px;"></div>
+      </div>
+
+      <button id="add-produit-btn" class="btn-primary" style="margin-top:14px;">Ajouter ce produit</button>
       <button id="seed-produits-btn" class="btn-ghost" style="border-color:#3F5F44;color:#3F5F44;margin-left:10px;">Importer le catalogue de départ (8 produits)</button>
       <p id="produit-feedback" style="margin-top:10px;font-size:0.85rem;"></p>
     </div>
