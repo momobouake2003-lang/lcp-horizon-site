@@ -206,6 +206,29 @@
     champRetour.style.display = 'none';
     dateRetour.removeAttribute('required');
   }
+
+  // Pré-remplissage depuis le widget de recherche du hero (?dateAller=...&dateRetour=...&passagers=...)
+  const params = new URLSearchParams(window.location.search);
+  const dateAllerParam = params.get('dateAller');
+  const dateRetourParam = params.get('dateRetour');
+  const passagersParam = params.get('passagers');
+  const departParam = params.get('depart');
+
+  if (dateAllerParam) dateAller.value = dateAllerParam;
+  if (dateRetourParam) {
+    dateRetour.value = dateRetourParam;
+    typeTrajet.value = 'aller-retour';
+    champRetour.style.display = '';
+    dateRetour.setAttribute('required', 'required');
+  }
+  if (passagersParam) {
+    const champPassagers = document.getElementById('passagers');
+    if (champPassagers) champPassagers.value = passagersParam;
+  }
+  if (departParam) {
+    const champDepart = document.getElementById('depart');
+    if (champDepart) champDepart.value = departParam;
+  }
 })();
 </script>
 

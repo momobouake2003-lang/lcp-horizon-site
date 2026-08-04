@@ -68,4 +68,30 @@ document.addEventListener('DOMContentLoaded', () => {
       mainNav.style.boxShadow = 'var(--shadow)';
     });
   }
+
+  // ── Widget de recherche du hero (accueil) ──
+  // Redirige vers la réservation avec destination, dates et passagers pré-remplis.
+  const heroSearch = document.getElementById('hero-search');
+  if (heroSearch) {
+    const dateAllerInput = document.getElementById('hsw-date-aller');
+    if (dateAllerInput) dateAllerInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+
+    heroSearch.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const depart = document.getElementById('hsw-depart').value.trim();
+      const arrivee = document.getElementById('hsw-arrivee').value.trim();
+      const dateAller = document.getElementById('hsw-date-aller').value;
+      const dateRetour = document.getElementById('hsw-date-retour').value;
+      const passagers = document.getElementById('hsw-passagers').value || '1';
+
+      const params = new URLSearchParams();
+      if (arrivee) params.set('destination', arrivee);
+      if (depart) params.set('depart', depart);
+      if (dateAller) params.set('dateAller', dateAller);
+      if (dateRetour) params.set('dateRetour', dateRetour);
+      if (passagers) params.set('passagers', passagers);
+
+      window.location.href = 'reservation.html?' + params.toString();
+    });
+  }
 });
