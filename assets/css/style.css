@@ -1263,6 +1263,24 @@ body {
   .hsw-submit { grid-column: 1 / -1; padding: 14px; }
 }
 
+/* ============================================
+   WIDGET DE RECHERCHE DANS LE HERO
+   ============================================ */
+.hero { min-height: 640px; padding-bottom: 60px; }
+.hero-search-wrap {
+  position: relative; z-index: 2;
+  margin-top: 36px;
+}
+.hero-search {
+  background: rgba(255,255,255,0.97);
+  border-radius: var(--radius-lg, 14px);
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr 1fr 0.8fr auto;
+  gap: 14px;
+  align-items: end;
+  box-shadow: var(--shadow-lg, 0 20px 50px rgba(0,0,0,0.25));
+}
 .hero-search-field label {
   display: block;
   font-size: 0.7rem;
@@ -1272,8 +1290,120 @@ body {
   font-weight: 600;
   margin-bottom: 6px;
 }
+.hero-search-field input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--border, #ddd);
+  border-radius: var(--radius-sm, 6px);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background: #fff;
+}
+.hero-search-field input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.hero-search-btn {
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  padding: 12px 26px;
+  border-radius: var(--radius-sm, 6px);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition, all .2s ease);
+}
+.hero-search-btn:hover { background: var(--navy-light, #16305c); }
+
+.hero-search-alt {
+  text-align: center;
+  margin-top: 16px;
+}
+.hero-search-alt a {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @media (max-width: 1000px) {
-    }
+  .hero-search { grid-template-columns: 1fr 1fr; }
+  .hero-search-btn { grid-column: 1 / -1; }
+}
 @media (max-width: 640px) {
   .hero { min-height: auto; padding-top: 130px; }
-  }
+  .hero-search { grid-template-columns: 1fr; padding: 18px; }
+}
+
+/* ============================================
+   SKELETON LOADING & ÉTAT VIDE
+   ============================================ */
+
+/* Skeleton card */
+.vol-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+.vol-skeleton-line {
+  height: 16px;
+  background: linear-gradient(90deg, #e8e4dc 25%, #f0ede6 50%, #e8e4dc 75%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  width: 60%;
+}
+
+.vol-skeleton-line.short {
+  width: 35%;
+  height: 12px;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* État vide illustré */
+.vols-etat-vide {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--white);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.vols-etat-vide-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.vols-etat-vide h4 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--navy);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.vols-etat-vide p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  max-width: 420px;
+  margin: 0 auto 20px;
+  line-height: 1.7;
+}

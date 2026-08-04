@@ -41,6 +41,45 @@ const triSelect = document.getElementById("vol-tri");
 
 let tousLesVols = [];
 
+// --- Skeleton loading ---
+function afficherSkeleton() {
+  volsListe.innerHTML = `
+    <div class="vol-skeleton">
+      <div class="vol-skeleton-line"></div>
+      <div class="vol-skeleton-line short"></div>
+    </div>
+    <div class="vol-skeleton">
+      <div class="vol-skeleton-line"></div>
+      <div class="vol-skeleton-line short"></div>
+    </div>
+    <div class="vol-skeleton">
+      <div class="vol-skeleton-line"></div>
+      <div class="vol-skeleton-line short"></div>
+    </div>
+  `;
+}
+
+// --- État vide illustré ---
+function afficherEtatVide() {
+  volsListe.innerHTML = `
+    <div class="vols-etat-vide">
+      <div class="vols-etat-vide-icon">✈️</div>
+      <h4>Aucun vol ne correspond à votre recherche</h4>
+      <p>Essayez d'autres critères (ville, prix) ou faites une demande sur-mesure — nous trouverons la meilleure solution pour vous.</p>
+      <button type="button" class="btn-primary" id="btn-etat-vide-demande" style="margin-top:8px;">Faire une demande sur-mesure</button>
+    </div>
+  `;
+  const btn = document.getElementById("btn-etat-vide-demande");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      // Bascule vers le mode demande
+      const btnDemande = document.querySelector('button[data-mode="demande"]');
+      if (btnDemande) btnDemande.click();
+    });
+  }
+}
+
+
 function texteVol(v) {
   return `${v.villeDepart} → ${v.villeArrivee} — ${v.compagnie || ""} (${v.prix ? v.prix + " FCFA" : "prix sur demande"})`;
 }
@@ -70,7 +109,7 @@ function rendreVolsFiltres() {
   if (tri === "prix-desc") liste.sort((a, b) => (Number(b.prix) || 0) - (Number(a.prix) || 0));
 
   if (!liste.length) {
-    volsListe.innerHTML = `<p class="vols-liste-vide">Aucun vol ne correspond à ta recherche.</p>`;
+    afficherEtatVide();
     return;
   }
 
@@ -96,7 +135,7 @@ function rendreVolsFiltres() {
 triSelect.addEventListener("change", rendreVolsFiltres);
 
 async function chargerVols() {
-  volsListe.innerHTML = `<p class="vols-liste-vide">Chargement des vols…</p>`;
+  afficherSkeleton();
   try {
     const snap = await getDocs(collection(db, "vols"));
     if (snap.empty) {
