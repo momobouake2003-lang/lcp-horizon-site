@@ -50,7 +50,7 @@ function rendreProduits() {
       const idx = btn.dataset.idx;
       const input = grid.querySelector(`.qte-input[data-idx="${idx}"]`);
       const quantite = Math.max(1, parseInt(input.value) || 1);
-      ajouterAuPanier(liste[idx], quantite);
+      ajouterAuPanier({ ...liste[idx], image: cheminImage(liste[idx]) }, quantite);
       btn.textContent = "Ajouté ✓";
       setTimeout(() => btn.textContent = "Ajouter au panier", 1200);
     });

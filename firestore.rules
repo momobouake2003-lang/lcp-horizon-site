@@ -7,7 +7,18 @@ service cloud.firestore {
     // N'importe qui peut créer une réservation (formulaire public),
     // mais seul un admin connecté peut les lire, modifier ou supprimer.
     match /reservations/{reservationId} {
-      allow create: if true;
+      allow create: if request.resource.data.keys().hasAll(['nom','prenom','email','telephone','dateAller','mode','statut'])
+                    && request.resource.data.nom is string
+                    && request.resource.data.nom.size() > 0 && request.resource.data.nom.size() < 100
+                    && request.resource.data.prenom is string
+                    && request.resource.data.prenom.size() > 0 && request.resource.data.prenom.size() < 100
+                    && request.resource.data.email is string
+                    && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+                    && request.resource.data.telephone is string
+                    && request.resource.data.telephone.size() > 0 && request.resource.data.telephone.size() < 30
+                    && request.resource.data.dateAller is string
+                    && request.resource.data.mode in ['direct', 'demande']
+                    && request.resource.data.statut == 'en_attente';
       allow read, update, delete: if request.auth != null;
     }
 

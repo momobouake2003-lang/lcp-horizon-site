@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 
 Sitemap: https://momobouake2003-lang.github.io/lcp-horizon-site/sitemap.xml
