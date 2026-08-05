@@ -1,8 +1,9 @@
-// Service Worker — LCP Horizon International v7
-const CACHE_VERSION = "lcp-horizon-v7";
+// Service Worker — LCP Horizon International v8
+const CACHE_VERSION = "lcp-horizon-v8";
 
 const ASSETS_TO_CACHE = [
   "./index.html",
+  "./404.html",
   "./reservation.html",
   "./mentions-legales.html",
   "./a-propos.html",
