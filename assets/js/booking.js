@@ -3,6 +3,7 @@ import {
   collection, getDocs, addDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { EMAILJS_CONFIG } from "./emailjs-config.js";
+import { showToast } from "./toast.js";
 
 if (window.emailjs) {
   window.emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
@@ -245,11 +246,13 @@ form.addEventListener("submit", async (e) => {
 
     feedback.style.color = "#3F5F44";
     feedback.textContent = "Votre demande a bien été envoyée. Nous vous contactons rapidement.";
+    showToast("✅ Votre demande a été envoyée. Nous vous recontactons sous 24h.");
     form.reset();
   } catch (err) {
     console.error("Erreur envoi réservation :", err);
     feedback.style.color = "#b33535";
     feedback.textContent = "Une erreur est survenue. Réessayez ou contactez-nous sur WhatsApp.";
+    showToast("❌ Une erreur est survenue. Réessayez ou contactez-nous sur WhatsApp.", { type: "error" });
   } finally {
     if (btnSubmit) {
       btnSubmit.disabled = false;

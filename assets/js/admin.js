@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gsta
 import { collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 import { PRODUITS } from "./produits-data.js";
+import { showToast } from "./toast.js";
 
 const loginBox = document.getElementById("login-box");
 const dashboard = document.getElementById("dashboard");
@@ -17,6 +18,7 @@ loginBtn.addEventListener("click", async () => {
     await signInWithEmailAndPassword(auth, email, pass);
   } catch (err) {
     loginError.textContent = "Identifiants incorrects.";
+    showToast("❌ Identifiants incorrects.", { type: "error" });
   }
 });
 
@@ -68,6 +70,8 @@ function ecouterReservations() {
         await updateDoc(doc(db, "reservations", e.target.dataset.id), {
           statut: e.target.value
         });
+        const libelles = { en_attente: "En attente", confirmee: "Confirmée", annulee: "Annulée" };
+        showToast(`✅ Statut mis à jour : ${libelles[e.target.value] || e.target.value}.`);
       });
     });
   });
@@ -94,6 +98,7 @@ addVolBtn.addEventListener("click", async () => {
     await addDoc(collection(db, "vols"), { villeDepart, villeArrivee, compagnie, prix });
     volFeedback.style.color = "#3F5F44";
     volFeedback.textContent = "Vol ajouté.";
+    showToast(`✅ Vol ${villeDepart} → ${villeArrivee} ajouté au catalogue.`);
     document.getElementById("v-depart").value = "";
     document.getElementById("v-arrivee").value = "";
     document.getElementById("v-compagnie").value = "";
@@ -101,6 +106,7 @@ addVolBtn.addEventListener("click", async () => {
   } catch (err) {
     volFeedback.style.color = "#b33535";
     volFeedback.textContent = "Erreur lors de l'ajout.";
+    showToast("❌ Erreur lors de l'ajout du vol.", { type: "error" });
     console.error(err);
   }
 });
@@ -126,6 +132,7 @@ function ecouterVols() {
     volsBody.querySelectorAll(".del-vol").forEach(btn => {
       btn.addEventListener("click", async (e) => {
         await deleteDoc(doc(db, "vols", e.target.dataset.id));
+        showToast("🗑 Vol supprimé du catalogue.", { type: "info" });
       });
     });
   });
@@ -212,6 +219,7 @@ addProduitBtn.addEventListener("click", async () => {
     await addDoc(collection(db, "produitsNaturels"), { nom, categorie, prix, image });
     produitFeedback.style.color = "#3F5F44";
     produitFeedback.textContent = "Produit ajouté.";
+    showToast(`✅ ${nom} ajouté au catalogue produits.`);
     document.getElementById("p-nom").value = "";
     document.getElementById("p-prix").value = "";
     inputFichier.value = "";
@@ -220,6 +228,7 @@ addProduitBtn.addEventListener("click", async () => {
   } catch (err) {
     produitFeedback.style.color = "#b33535";
     produitFeedback.textContent = "Erreur lors de l'ajout : " + err.message;
+    showToast("❌ Erreur lors de l'ajout du produit.", { type: "error" });
     console.error(err);
   } finally {
     addProduitBtn.disabled = false;
@@ -242,9 +251,11 @@ seedProduitsBtn.addEventListener("click", async () => {
     }
     produitFeedback.style.color = "#3F5F44";
     produitFeedback.textContent = "Catalogue de départ importé.";
+    showToast(`✅ Catalogue de départ importé (${PRODUITS.length} produits).`);
   } catch (err) {
     produitFeedback.style.color = "#b33535";
     produitFeedback.textContent = "Erreur pendant l'import.";
+    showToast("❌ Erreur pendant l'import du catalogue.", { type: "error" });
     console.error(err);
   }
   seedProduitsBtn.disabled = false;
@@ -271,6 +282,7 @@ function ecouterProduits() {
     produitsBody.querySelectorAll(".del-produit").forEach(btn => {
       btn.addEventListener("click", async (e) => {
         await deleteDoc(doc(db, "produitsNaturels", e.target.dataset.id));
+        showToast("🗑 Produit supprimé du catalogue.", { type: "info" });
       });
     });
   });

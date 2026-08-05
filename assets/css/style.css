@@ -139,13 +139,46 @@ body {
 }
 
 .main-nav {
-  display: none;
-  align-items: center;
-  gap: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: min(320px, 85vw);
+  background: var(--cream);
+  padding: 110px 36px 40px;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1001;
+  overflow-y: auto;
+}
+
+.main-nav.ouvert {
+  transform: translateX(0);
 }
 
 @media (min-width: 768px) {
-  .main-nav { display: flex; }
+  .main-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 36px;
+    position: static;
+    top: auto; right: auto;
+    height: auto;
+    width: auto;
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    transform: none;
+    transition: none;
+    z-index: auto;
+    overflow: visible;
+  }
 }
 
 .main-nav a {
@@ -157,6 +190,31 @@ body {
   position: relative;
   padding: 4px 0;
   transition: var(--transition);
+}
+
+/* Apparition en cascade des liens du drawer mobile */
+@media (max-width: 767px) {
+  .main-nav a {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateX(28px);
+    transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+  }
+
+  .main-nav.ouvert a {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .main-nav.ouvert a:nth-child(1) { transition-delay: 0.10s; }
+  .main-nav.ouvert a:nth-child(2) { transition-delay: 0.16s; }
+  .main-nav.ouvert a:nth-child(3) { transition-delay: 0.22s; }
+  .main-nav.ouvert a:nth-child(4) { transition-delay: 0.28s; }
+  .main-nav.ouvert a:nth-child(5) { transition-delay: 0.34s; }
+  .main-nav.ouvert a:nth-child(6) { transition-delay: 0.40s; }
 }
 
 .main-nav a::after {
@@ -215,6 +273,8 @@ body {
   border: none;
   cursor: pointer;
   padding: 8px;
+  position: relative;
+  z-index: 1002; /* toujours au-dessus du drawer pour rester cliquable */
 }
 
 .menu-toggle span {
@@ -224,10 +284,49 @@ body {
   background: var(--navy);
   border-radius: 2px;
   transition: var(--transition);
+  transform-origin: center;
+}
+
+/* Animation hamburger → croix */
+.menu-toggle.ouvert span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.menu-toggle.ouvert span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-8px);
+}
+.menu-toggle.ouvert span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 @media (min-width: 768px) {
   .menu-toggle { display: none; }
+}
+
+/* Overlay sombre derrière le drawer mobile */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 18, 36, 0.6);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  z-index: 999; /* sous le header (1000) pour ne jamais couvrir le drawer/toggle */
+}
+
+.nav-overlay.ouvert {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (min-width: 768px) {
+  .nav-overlay { display: none; }
+}
+
+/* Empêche le scroll de la page quand le drawer est ouvert */
+body.menu-ouvert {
+  overflow: hidden;
 }
 
 /* ============================================
@@ -1406,4 +1505,81 @@ body {
   max-width: 420px;
   margin: 0 auto 20px;
   line-height: 1.7;
+}
+
+/* ============================================
+   Toasts — notifications flottantes
+   ============================================ */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--white, #fff);
+  color: var(--navy, #0B1D3A);
+  border-left: 4px solid #3F5F44;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(11, 29, 58, 0.18);
+  padding: 14px 16px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast.leaving {
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.toast.error {
+  border-left-color: #b33535;
+}
+
+.toast.info {
+  border-left-color: var(--gold, #C9A24B);
+}
+
+.toast-message {
+  flex: 1;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px;
+  flex-shrink: 0;
+}
+.toast-close:hover { color: #555; }
+
+@media (max-width: 600px) {
+  .toast-container {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    max-width: none;
+  }
+  .toast { font-size: 0.85rem; }
 }

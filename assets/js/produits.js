@@ -2,6 +2,7 @@ import { db } from "./firebase-config.js";
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { PRODUITS as PRODUITS_LOCAUX } from "./produits-data.js";
 import { ajouterAuPanier } from "./cart.js";
+import { showToast } from "./toast.js";
 
 const grid = document.getElementById("produits-grid");
 const catToggle = document.getElementById("cat-toggle");
@@ -51,6 +52,7 @@ function rendreProduits() {
       const input = grid.querySelector(`.qte-input[data-idx="${idx}"]`);
       const quantite = Math.max(1, parseInt(input.value) || 1);
       ajouterAuPanier({ ...liste[idx], image: cheminImage(liste[idx]) }, quantite);
+      showToast(`🛒 ${liste[idx].nom} ajouté au panier.`);
       btn.textContent = "Ajouté ✓";
       setTimeout(() => btn.textContent = "Ajouter au panier", 1200);
     });

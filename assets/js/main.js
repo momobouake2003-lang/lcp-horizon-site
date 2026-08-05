@@ -48,24 +48,57 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.log('SW registration failed:', err));
   }
 
-  // ── Mobile menu toggle (basic) ──
+  // ── Menu mobile : drawer animé depuis la droite ──
   const menuToggle = document.getElementById('menu-toggle');
   const mainNav = document.querySelector('.main-nav');
   if (menuToggle && mainNav) {
+    // Overlay créé dynamiquement une seule fois (évite de le dupliquer sur chaque page)
+    let overlay = document.querySelector('.nav-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'nav-overlay';
+      document.body.appendChild(overlay);
+    }
+
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+
+    function ouvrirMenu() {
+      mainNav.classList.add('ouvert');
+      overlay.classList.add('ouvert');
+      menuToggle.classList.add('ouvert');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      menuToggle.setAttribute('aria-label', 'Fermer le menu');
+      document.body.classList.add('menu-ouvert');
+    }
+
+    function fermerMenu() {
+      mainNav.classList.remove('ouvert');
+      overlay.classList.remove('ouvert');
+      menuToggle.classList.remove('ouvert');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+      document.body.classList.remove('menu-ouvert');
+    }
+
     menuToggle.addEventListener('click', () => {
-      const isOpen = mainNav.style.display === 'flex';
-      mainNav.style.display = isOpen ? 'none' : 'flex';
-      mainNav.style.position = 'absolute';
-      mainNav.style.top = '76px';
-      mainNav.style.left = '0';
-      mainNav.style.right = '0';
-      mainNav.style.flexDirection = 'column';
-      mainNav.style.background = 'rgba(250,250,248,0.98)';
-      mainNav.style.backdropFilter = 'blur(20px)';
-      mainNav.style.padding = '24px';
-      mainNav.style.gap = '20px';
-      mainNav.style.borderBottom = '1px solid var(--border)';
-      mainNav.style.boxShadow = 'var(--shadow)';
+      mainNav.classList.contains('ouvert') ? fermerMenu() : ouvrirMenu();
+    });
+
+    // Clic sur l'overlay sombre = fermeture
+    overlay.addEventListener('click', fermerMenu);
+
+    // Clic sur un lien du menu = fermeture (navigation ou ancre)
+    mainNav.querySelectorAll('a').forEach(lien => lien.addEventListener('click', fermerMenu));
+
+    // Touche Échap = fermeture
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') fermerMenu();
+    });
+
+    // Repasser en nav desktop (redimensionnement) = fermeture propre du drawer
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) fermerMenu();
     });
   }
 

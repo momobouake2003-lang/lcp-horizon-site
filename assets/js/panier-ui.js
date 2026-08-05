@@ -1,4 +1,5 @@
 import { lirePanier, modifierQuantite, totalPanier, nombreArticles, prixUnitaire, lienCommandeWhatsApp } from "./cart.js";
+import { showToast } from "./toast.js";
 
 const toggle = document.getElementById("panier-toggle");
 const overlay = document.getElementById("panier-overlay");
@@ -63,6 +64,7 @@ function rendre() {
   }));
   itemsEl.querySelectorAll(".q-suppr").forEach(b => b.addEventListener("click", () => {
     modifierQuantite(b.dataset.nom, 0);
+    showToast(`🗑 ${b.dataset.nom} retiré du panier.`, { type: "info" });
   }));
 }
 

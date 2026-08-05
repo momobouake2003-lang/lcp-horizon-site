@@ -1,5 +1,5 @@
-// Service Worker — LCP Horizon International v6
-const CACHE_VERSION = "lcp-horizon-v6";
+// Service Worker — LCP Horizon International v7
+const CACHE_VERSION = "lcp-horizon-v7";
 
 const ASSETS_TO_CACHE = [
   "./index.html",
@@ -27,6 +27,7 @@ const ASSETS_TO_CACHE = [
   "./assets/js/admin.js",
   "./assets/js/dest-prix.js",
   "./assets/js/emailjs-config.js",
+  "./assets/js/toast.js",
   "./assets/images/lcp-horizon-logo.svg",
   "./manifest.json"
 ];
