@@ -16,6 +16,7 @@
 <link rel="icon" href="assets/images/lcp-horizon-logo.svg">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="preload" as="image" href="assets/images/destinations/abidjan.jpg" fetchpriority="high">
 
 <script type="application/ld+json">
 {
@@ -41,7 +42,7 @@
 <header class="site-header" id="site-header">
   <div class="container">
     <a href="index.html" class="brand">
-      <img src="assets/images/lcp-horizon-logo.svg" alt="LCP Horizon International">
+      <img src="assets/images/lcp-horizon-logo.svg" alt="LCP Horizon International" width="48" height="48">
       <span class="brand-text"><strong>LCP Horizon</strong><span>International</span></span>
     </a>
     <nav class="main-nav">
@@ -116,7 +117,10 @@
 
     <div class="destinations-track">
       <a href="destinations/abidjan.html" class="boarding-card reveal">
-        <img src="assets/images/destinations/abidjan.jpg" alt="Abidjan, Côte d'Ivoire" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
+        <picture>
+          <source srcset="assets/images/destinations/abidjan.webp" type="image/webp">
+          <img src="assets/images/destinations/abidjan.jpg" alt="Abidjan, Côte d'Ivoire" class="dest-photo" loading="lazy" width="1726" height="1134" onerror="this.style.display='none'">
+        </picture>
         <div class="card-body">
           <span class="route-code">ABJ</span>
           <div class="route-city">Abidjan</div>
@@ -127,7 +131,10 @@
       </a>
 
       <a href="destinations/dakar.html" class="boarding-card reveal">
-        <img src="assets/images/destinations/dakar.jpg" alt="Dakar, Sénégal" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
+        <picture>
+          <source srcset="assets/images/destinations/dakar.webp" type="image/webp">
+          <img src="assets/images/destinations/dakar.jpg" alt="Dakar, Sénégal" class="dest-photo" loading="lazy" width="1024" height="1024" onerror="this.style.display='none'">
+        </picture>
         <div class="card-body">
           <span class="route-code">DKR</span>
           <div class="route-city">Dakar</div>
@@ -138,7 +145,10 @@
       </a>
 
       <a href="destinations/casablanca.html" class="boarding-card reveal">
-        <img src="assets/images/destinations/casablanca.jpg" alt="Casablanca, Maroc" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
+        <picture>
+          <source srcset="assets/images/destinations/casablanca.webp" type="image/webp">
+          <img src="assets/images/destinations/casablanca.jpg" alt="Casablanca, Maroc" class="dest-photo" loading="lazy" width="615" height="498" onerror="this.style.display='none'">
+        </picture>
         <div class="card-body">
           <span class="route-code">CMN</span>
           <div class="route-city">Casablanca</div>
@@ -149,7 +159,10 @@
       </a>
 
       <a href="destinations/paris.html" class="boarding-card reveal">
-        <img src="assets/images/destinations/paris.jpg" alt="Paris, France" class="dest-photo" loading="lazy" onerror="this.style.display='none'">
+        <picture>
+          <source srcset="assets/images/destinations/paris.webp" type="image/webp">
+          <img src="assets/images/destinations/paris.jpg" alt="Paris, France" class="dest-photo" loading="lazy" width="678" height="927" onerror="this.style.display='none'">
+        </picture>
         <div class="card-body">
           <span class="route-code">CDG</span>
           <div class="route-city">Paris</div>
@@ -252,7 +265,10 @@
       </article>
       <article class="nature-card reveal">
         <div class="nature-img">
-          <img src="assets/images/produits/fruits-secs-melange.jpg" alt="Mélange de fruits secs" loading="lazy">
+          <picture>
+            <source srcset="assets/images/produits/fruits-secs-melange.webp" type="image/webp">
+            <img src="assets/images/produits/fruits-secs-melange.jpg" alt="Mélange de fruits secs" loading="lazy" width="740" height="414">
+          </picture>
         </div>
         <div class="nature-body">
           <span class="nature-cat">Compléments &amp; plantes</span>

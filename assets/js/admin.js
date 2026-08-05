@@ -173,12 +173,12 @@ inputFichier.addEventListener("change", () => {
   const fichier = inputFichier.files[0];
   if (!fichier) { apercuImage.innerHTML = ""; return; }
   const url = URL.createObjectURL(fichier);
-  apercuImage.innerHTML = `<img src="${url}" style="max-width:140px;max-height:140px;border-radius:8px;object-fit:cover;">`;
+  apercuImage.innerHTML = `<img src="${url}" width="140" height="140" style="max-width:140px;max-height:140px;border-radius:8px;object-fit:cover;">`;
 });
 inputUrl.addEventListener("input", () => {
   const val = inputUrl.value.trim();
   apercuImage.innerHTML = val
-    ? `<img src="${val}" style="max-width:140px;max-height:140px;border-radius:8px;object-fit:cover;" onerror="this.style.display='none'">`
+    ? `<img src="${val}" width="140" height="140" style="max-width:140px;max-height:140px;border-radius:8px;object-fit:cover;" onerror="this.style.display='none'">`
     : "";
 });
 
@@ -195,6 +195,18 @@ async function obtenirUrlImage() {
   const storageRef = ref(storage, nomFichier);
   await uploadBytes(storageRef, fichier);
   return await getDownloadURL(storageRef);
+}
+
+// Mesure la largeur/hauteur réelle de l'image (fichier ou URL) pour éviter
+// le CLS (Cumulative Layout Shift) à l'affichage dans la grille produits.
+function obtenirDimensionsImage(url) {
+  return new Promise((resolve) => {
+    if (!url) return resolve({ width: null, height: null });
+    const img = new Image();
+    img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    img.onerror = () => resolve({ width: null, height: null });
+    img.src = url;
+  });
 }
 
 addProduitBtn.addEventListener("click", async () => {
@@ -216,7 +228,8 @@ addProduitBtn.addEventListener("click", async () => {
 
   try {
     const image = await obtenirUrlImage();
-    await addDoc(collection(db, "produitsNaturels"), { nom, categorie, prix, image });
+    const { width, height } = await obtenirDimensionsImage(image);
+    await addDoc(collection(db, "produitsNaturels"), { nom, categorie, prix, image, width, height });
     produitFeedback.style.color = "#3F5F44";
     produitFeedback.textContent = "Produit ajouté.";
     showToast(`✅ ${nom} ajouté au catalogue produits.`);
@@ -246,7 +259,9 @@ seedProduitsBtn.addEventListener("click", async () => {
         nom: p.nom,
         categorie: p.categorie,
         prix: p.prix,
-        image: p.image.replace("../", "") // chemin relatif à la racine du site
+        image: p.image.replace("../", ""), // chemin relatif à la racine du site
+        width: p.width || null,
+        height: p.height || null
       });
     }
     produitFeedback.style.color = "#3F5F44";
