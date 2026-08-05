@@ -30,7 +30,7 @@ function rendre() {
   whatsappBtn.href = lienCommandeWhatsApp();
 
   if (!panier.length) {
-    itemsEl.innerHTML = `<p style="color:#888;padding:20px 0;">Ton panier est vide.</p>`;
+    itemsEl.innerHTML = `<p style="color:var(--text-light);padding:20px 0;">Ton panier est vide.</p>`;
     return;
   }
 
@@ -42,7 +42,7 @@ function rendre() {
         <img src="${item.image}" alt="${item.nom}" width="56" height="56">
         <div class="panier-item-info">
           <strong>${item.nom}</strong>
-          <span style="font-size:0.78rem;color:${enGros ? '#3F5F44' : '#888'};">${pu} FCFA${enGros ? " (gros)" : ""}</span>
+          <span style="font-size:0.78rem;color:${enGros ? 'var(--success)' : 'var(--text-light)'};">${pu} FCFA${enGros ? " (gros)" : ""}</span>
           <div class="panier-qte">
             <button class="q-moins" data-nom="${item.nom}">−</button>
             <span>${item.quantite}</span>

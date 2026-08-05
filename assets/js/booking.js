@@ -173,7 +173,7 @@ if (destinationVoulue) {
     if (match) {
       selectionnerVol(match.id);
       // Message clair pour confirmer visuellement le choix
-      feedback.style.color = "#3F5F44";
+      feedback.style.color = "var(--success)";
       feedback.textContent = `Vol vers ${destinationVoulue} présélectionné — vérifie les détails et complète le formulaire.`;
     }
   };
@@ -209,12 +209,12 @@ form.addEventListener("submit", async (e) => {
 
   const erreurs = validerFormulaire(data);
   if (erreurs.length) {
-    feedback.style.color = "#b33535";
+    feedback.style.color = "var(--danger)";
     feedback.textContent = erreurs.join(" ");
     return;
   }
 
-  feedback.style.color = "#555";
+  feedback.style.color = "var(--text-light)";
   feedback.textContent = "Envoi en cours…";
   if (btnSubmit) {
     btnSubmit.disabled = true;
@@ -244,13 +244,13 @@ form.addEventListener("submit", async (e) => {
       }).catch(err => console.warn("E-mail non envoyé :", err));
     }
 
-    feedback.style.color = "#3F5F44";
+    feedback.style.color = "var(--success)";
     feedback.textContent = "Votre demande a bien été envoyée. Nous vous contactons rapidement.";
     showToast("✅ Votre demande a été envoyée. Nous vous recontactons sous 24h.");
     form.reset();
   } catch (err) {
     console.error("Erreur envoi réservation :", err);
-    feedback.style.color = "#b33535";
+    feedback.style.color = "var(--danger)";
     feedback.textContent = "Une erreur est survenue. Réessayez ou contactez-nous sur WhatsApp.";
     showToast("❌ Une erreur est survenue. Réessayez ou contactez-nous sur WhatsApp.", { type: "error" });
   } finally {

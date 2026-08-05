@@ -102,6 +102,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── Thème clair / sombre ──
+  const CLE_THEME = 'lcp-theme';
+  const themeToggle = document.getElementById('theme-toggle');
+  const mediaSombre = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function appliquerTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    if (themeToggle) {
+      themeToggle.setAttribute(
+        'aria-label',
+        theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre'
+      );
+    }
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const themeActuel = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const nouveauTheme = themeActuel === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem(CLE_THEME, nouveauTheme); } catch (e) {}
+      appliquerTheme(nouveauTheme);
+    });
+
+    // Reflète l'état déjà appliqué par le script anti-flash dans le <head>
+    appliquerTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  }
+
+  // Si l'utilisateur n'a jamais choisi explicitement, on suit la préférence système en direct
+  mediaSombre.addEventListener('change', (e) => {
+    let choixExplicite = null;
+    try { choixExplicite = localStorage.getItem(CLE_THEME); } catch (err) {}
+    if (!choixExplicite) appliquerTheme(e.matches ? 'dark' : 'light');
+  });
+
   // ── Widget de recherche du hero (accueil) ──
   // Redirige vers la réservation avec destination, dates et passagers pré-remplis.
   const heroSearch = document.getElementById('hero-search');
