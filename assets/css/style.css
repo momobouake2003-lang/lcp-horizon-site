@@ -1425,7 +1425,11 @@ body.menu-ouvert {
   border-radius: var(--radius-sm, 8px);
   font-family: var(--font-body);
   font-size: 0.92rem;
-  background: var(--cream, #faf9f6);
+  background: #faf9f6;
+  color: #1A1A2E;
+}
+.hsw-field input::placeholder {
+  color: #6B7280;
 }
 .hsw-field input:focus {
   outline: none;
@@ -1461,74 +1465,9 @@ body.menu-ouvert {
    WIDGET DE RECHERCHE DANS LE HERO
    ============================================ */
 .hero { min-height: 640px; padding-bottom: 60px; }
-.hero-search-wrap {
-  position: relative; z-index: 2;
-  margin-top: 36px;
-}
-.hero-search {
-  background: rgba(255,255,255,0.97);
-  border-radius: var(--radius-lg, 14px);
-  padding: 22px;
-  display: grid;
-  grid-template-columns: 1.2fr 1.2fr 1fr 1fr 0.8fr auto;
-  gap: 14px;
-  align-items: end;
-  box-shadow: var(--shadow-lg, 0 20px 50px rgba(0,0,0,0.25));
-}
-.hero-search-field label {
-  display: block;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--heading);
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.hero-search-field input {
-  width: 100%;
-  padding: 11px 12px;
-  border: 1px solid var(--border, #ddd);
-  border-radius: var(--radius-sm, 6px);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  background: var(--surface);
-}
-.hero-search-field input:focus {
-  outline: none;
-  border-color: var(--gold);
-}
-.hero-search-btn {
-  background: var(--navy);
-  color: #fff;
-  border: none;
-  padding: 12px 26px;
-  border-radius: var(--radius-sm, 6px);
-  font-weight: 600;
-  font-size: 0.88rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: var(--transition, all .2s ease);
-}
-.hero-search-btn:hover { background: var(--navy-light, #16305c); }
 
-.hero-search-alt {
-  text-align: center;
-  margin-top: 16px;
-}
-.hero-search-alt a {
-  color: rgba(255,255,255,0.85);
-  font-size: 0.85rem;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-@media (max-width: 1000px) {
-  .hero-search { grid-template-columns: 1fr 1fr; }
-  .hero-search-btn { grid-column: 1 / -1; }
-}
 @media (max-width: 640px) {
   .hero { min-height: auto; padding-top: 130px; }
-  .hero-search { grid-template-columns: 1fr; padding: 18px; }
 }
 
 /* ============================================
@@ -1677,4 +1616,47 @@ body.menu-ouvert {
     max-width: none;
   }
   .toast { font-size: 0.85rem; }
+}
+
+/* ============================================
+   EFFET RIPPLE (boutons)
+   ============================================ */
+.btn-primary, .nav-cta, .hero-search-widget .hsw-submit, .btn-ghost {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  transform: scale(0);
+  animation: ripple-anim 0.6s ease-out;
+  pointer-events: none;
+}
+@keyframes ripple-anim {
+  to { transform: scale(3.5); opacity: 0; }
+}
+
+/* ============================================
+   FOCUS DORÉ ANIMÉ (champs de formulaire)
+   ============================================ */
+@keyframes focus-draw {
+  from { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.35); }
+  to   { box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.12); }
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.hsw-field input:focus {
+  border-color: var(--gold);
+  animation: focus-draw 0.35s ease;
+  box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.12);
+}
+
+/* ============================================
+   TILT 3D AU SURVOL (cartes)
+   ============================================ */
+.boarding-card, .nature-card {
+  transition: transform 0.15s ease-out, box-shadow 0.25s ease;
+  will-change: transform;
 }

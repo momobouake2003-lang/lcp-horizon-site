@@ -165,4 +165,39 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = 'reservation.html?' + params.toString();
     });
   }
+
+  // ── Effet ripple sur les boutons ──
+  document.querySelectorAll('.btn-primary, .nav-cta, .hsw-submit, .btn-ghost').forEach((bouton) => {
+    bouton.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const taille = Math.max(rect.width, rect.height);
+      const cercle = document.createElement('span');
+      cercle.className = 'ripple-effect';
+      cercle.style.width = cercle.style.height = taille + 'px';
+      cercle.style.left = (e.clientX - rect.left - taille / 2) + 'px';
+      cercle.style.top = (e.clientY - rect.top - taille / 2) + 'px';
+      this.appendChild(cercle);
+      setTimeout(() => cercle.remove(), 600);
+    });
+  });
+
+  // ── Tilt 3D au survol (destinations + produits naturels) ──
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.boarding-card, .nature-card').forEach((carte) => {
+      carte.addEventListener('mousemove', (e) => {
+        const rect = carte.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rotateX = ((y - cy) / cy) * -5;
+        const rotateY = ((x - cx) / cx) * 5;
+        carte.style.transform =
+          `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+      });
+      carte.addEventListener('mouseleave', () => {
+        carte.style.transform = '';
+      });
+    });
+  }
 });

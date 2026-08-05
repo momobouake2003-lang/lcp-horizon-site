@@ -1,5 +1,5 @@
 // Service Worker — LCP Horizon International v9
-const CACHE_VERSION = "lcp-horizon-v9";
+const CACHE_VERSION = "lcp-horizon-v11";
 
 const ASSETS_TO_CACHE = [
   "./index.html",
