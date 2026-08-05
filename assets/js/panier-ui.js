@@ -38,7 +38,7 @@ function rendre() {
     const enGros = item.quantite >= item.qteGros;
     return `
       <div class="panier-item">
-        <img src="${item.image.replace('../', '../')}" alt="${item.nom}">
+        <img src="${item.image.replace('../', '../')}" alt="${item.nom}" width="56" height="56">
         <div class="panier-item-info">
           <strong>${item.nom}</strong>
           <span style="font-size:0.78rem;color:${enGros ? '#3F5F44' : '#888'};">${pu} FCFA${enGros ? " (gros)" : ""}</span>

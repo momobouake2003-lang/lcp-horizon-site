@@ -26,8 +26,11 @@ function rendreProduits() {
   grid.innerHTML = liste.map((p, i) => `
     <article class="nature-card">
       <div class="nature-img" style="background:none;">
-        <img src="${cheminImage(p)}" alt="${p.nom}" style="width:100%;height:100%;object-fit:cover;">
-      </div>
+  <picture>
+    <source srcset="${cheminImage(p).replace('.jpg','.webp')}" type="image/webp">
+    <img src="${cheminImage(p)}" alt="${p.nom}" style="width:100%;height:100%;object-fit:cover;" width="${p.width||800}" height="${p.height||800}">
+  </picture>
+</div>
       <div class="nature-body">
         <span class="nature-cat">${p.categorie === "cosmetiques" ? "Cosmétiques & soins" : "Compléments & plantes"}</span>
         <h3>${p.nom}</h3>
