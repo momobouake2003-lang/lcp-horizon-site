@@ -1,9 +1,10 @@
 import { db, auth, storage } from "./firebase-config.js";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { collection, onSnapshot, doc, getDoc, updateDoc, deleteDoc, addDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 import { PRODUITS } from "./produits-data.js";
 import { showToast } from "./toast.js";
+import { escapeHtml } from "./utils.js";
 
 const loginBox = document.getElementById("login-box");
 const dashboard = document.getElementById("dashboard");
@@ -22,17 +23,39 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    loginBox.style.display = "none";
-    dashboard.style.display = "block";
-    ecouterReservations();
-    ecouterVols();
-    ecouterProduits();
-  } else {
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
     loginBox.style.display = "block";
     dashboard.style.display = "none";
+    return;
   }
+
+  // Un utilisateur Firebase authentifié n'est pas forcément admin :
+  // on vérifie le document users/{uid} avant d'afficher quoi que ce soit.
+  // (La vraie barrière de sécurité est dans firestore.rules — ce contrôle
+  // côté client évite juste d'afficher un tableau de bord vide/cassé.)
+  let estAdmin = false;
+  try {
+    const roleSnap = await getDoc(doc(db, "users", user.uid));
+    estAdmin = roleSnap.exists() && roleSnap.data().role === "admin";
+  } catch (err) {
+    console.error("Vérification du rôle impossible :", err);
+  }
+
+  if (!estAdmin) {
+    await signOut(auth);
+    loginBox.style.display = "block";
+    dashboard.style.display = "none";
+    loginError.textContent = "Ce compte n'a pas les droits administrateur.";
+    showToast("❌ Accès refusé : ce compte n'est pas administrateur.", { type: "error" });
+    return;
+  }
+
+  loginBox.style.display = "none";
+  dashboard.style.display = "block";
+  ecouterReservations();
+  ecouterVols();
+  ecouterProduits();
 });
 
 function ecouterReservations() {
@@ -46,13 +69,13 @@ function ecouterReservations() {
       const r = d.data();
       const trajet = r.mode === "direct"
         ? (r.vol || "—")
-        : `${r.depart || "?"} → ${r.arrivee || "?"}`;
+        : `${escapeHtml(r.depart) || "?"} → ${escapeHtml(r.arrivee) || "?"}`;
       return `
         <tr>
-          <td>${r.prenom || ""} ${r.nom || ""}<br><span style="color:#888;">${r.email || ""}</span></td>
+          <td>${escapeHtml(r.prenom)} ${escapeHtml(r.nom)}<br><span style="color:#888;">${escapeHtml(r.email)}</span></td>
           <td>${trajet}</td>
-          <td>${r.dateAller || "—"}</td>
-          <td>${r.passagers || 1}</td>
+          <td>${escapeHtml(r.dateAller) || "—"}</td>
+          <td>${escapeHtml(r.passagers) || 1}</td>
           <td>${r.mode === "direct" ? "Directe" : "Demande"}</td>
           <td>
             <select class="statut-select" data-id="${d.id}">
@@ -121,9 +144,9 @@ function ecouterVols() {
       const v = d.data();
       return `
         <tr>
-          <td>${v.villeDepart} → ${v.villeArrivee}</td>
-          <td>${v.compagnie || "—"}</td>
-          <td>${v.prix ? v.prix + " FCFA" : "—"}</td>
+          <td>${escapeHtml(v.villeDepart)} → ${escapeHtml(v.villeArrivee)}</td>
+          <td>${escapeHtml(v.compagnie) || "—"}</td>
+          <td>${v.prix ? escapeHtml(v.prix) + " FCFA" : "—"}</td>
           <td><button data-id="${d.id}" class="del-vol" style="color:#b33535;background:none;border:none;font-size:0.8rem;">Supprimer</button></td>
         </tr>
       `;
@@ -286,9 +309,9 @@ function ecouterProduits() {
       const p = d.data();
       return `
         <tr>
-          <td>${p.nom}</td>
+          <td>${escapeHtml(p.nom)}</td>
           <td>${p.categorie === "cosmetiques" ? "Cosmétiques & soins" : "Compléments & plantes"}</td>
-          <td>${p.prix ? p.prix + " FCFA" : "—"}</td>
+          <td>${p.prix ? escapeHtml(p.prix) + " FCFA" : "—"}</td>
           <td><button data-id="${d.id}" class="del-produit" style="color:#b33535;background:none;border:none;font-size:0.8rem;">Supprimer</button></td>
         </tr>
       `;

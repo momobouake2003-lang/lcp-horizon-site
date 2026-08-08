@@ -41,7 +41,8 @@ lcp-horizon-site/
     │   ├── produits-data.js       Catalogue produits (statique pour l'instant)
     │   └── admin.js               Auth + gestion vols/réservations
     └── images/
-        ├── lcp-horizon-logo.svg
+        ├── lcp-horizon-logo-header.png
+        ├── favicon/                   Favicons (ico, png, apple-touch-icon)
         └── produits/              Photos des produits naturels
 ```
 
@@ -64,17 +65,26 @@ const firebaseConfig = {
 ```
 
 5. Crée un compte admin dans **Authentication → Users → Ajouter un utilisateur** (c'est ce compte qui se connecte sur `/admin`)
+6. **Étape indispensable (sécurité)** : copie le **UID** de ce compte (visible dans la colonne "UID" de la liste des utilisateurs), puis va dans **Firestore Database → Données → + Démarrer une collection** :
+   - ID de la collection : `users`
+   - ID du document : **colle le UID copié à l'étape précédente** (exactement, pas de nom au choix)
+   - Ajoute un champ : `role` (type *string*) avec la valeur `admin`
+   - Enregistre
+
+   Sans ce document, ton propre compte admin sera lui-même refusé par le dashboard (`/admin`) — c'est voulu : seuls les comptes avec un document `users/{uid}` contenant `role: "admin"` peuvent se connecter. Un compte créé sans passer par cette étape (même avec un mot de passe valide) n'aura aucun accès. Ce document ne peut être créé que depuis la console Firebase, jamais depuis le site.
 
 ## 2. Déployer les règles de sécurité Firestore
 
-Les règles (`firestore.rules`) protègent tes données : n'importe qui peut soumettre une réservation, mais seul un admin connecté peut consulter/modifier les réservations ou gérer les vols.
+Les règles (`firestore.rules` et `storage.rules`) protègent tes données : n'importe qui peut soumettre une réservation, mais seul un compte marqué `role: "admin"` dans `users/{uid}` (voir étape 6 ci-dessus) peut consulter/modifier les réservations, gérer les vols ou uploader des images produits.
 
 ```bash
 npm install -g firebase-tools
 firebase login
 # Remplace TON_PROJECT_ID dans .firebaserc par l'ID de ton projet Firebase
-firebase deploy --only firestore:rules
+firebase deploy --only firestore:rules,storage:rules
 ```
+
+⚠️ Si tu ajoutes un jour un deuxième compte admin, répète l'étape 6 avec son UID — sinon il pourra se connecter à Firebase Auth mais restera bloqué à la porte du dashboard.
 
 ## 3. Déployer le site sur GitHub Pages
 

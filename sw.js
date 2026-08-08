@@ -1,5 +1,5 @@
-// Service Worker — LCP Horizon International v9
-const CACHE_VERSION = "lcp-horizon-v11";
+// Service Worker — LCP Horizon International v17
+const CACHE_VERSION = "lcp-horizon-v17";
 
 const ASSETS_TO_CACHE = [
   "./index.html",
@@ -17,6 +17,12 @@ const ASSETS_TO_CACHE = [
   "./destinations/paris.html",
   "./destinations/dubai.html",
   "./destinations/istanbul.html",
+  "./destinations/le-caire.html",
+  "./destinations/lagos.html",
+  "./destinations/londres.html",
+  "./destinations/jeddah.html",
+  "./destinations/bruxelles.html",
+  "./destinations/new-york.html",
   "./assets/css/style.css",
   "./assets/js/main.js",
   "./assets/js/booking.js",
@@ -29,7 +35,11 @@ const ASSETS_TO_CACHE = [
   "./assets/js/dest-prix.js",
   "./assets/js/emailjs-config.js",
   "./assets/js/toast.js",
-  "./assets/images/lcp-horizon-logo.svg",
+  "./assets/js/utils.js",
+  "./assets/images/lcp-horizon-logo-header.png",
+  "./assets/images/lcp-horizon-logo-header-dark.png",
+  "./assets/images/favicon/favicon.ico",
+  "./assets/images/favicon/apple-touch-icon.png",
   "./manifest.json"
 ];
 

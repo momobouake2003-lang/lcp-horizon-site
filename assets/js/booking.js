@@ -9,6 +9,38 @@ if (window.emailjs) {
   window.emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 }
 
+// --- Anti-abus EmailJS (limite le quota gratuit de 200 e-mails/mois) ---
+// Important : ceci reste une protection CÔTÉ NAVIGATEUR, donc contournable
+// (navigation privée, autre appareil, appel direct à l'API EmailJS hors du
+// site). La vraie protection est la restriction de domaine à configurer
+// dans le tableau de bord EmailJS (Account > Security > Allowed origins).
+// Ce garde-fou limite simplement les abus "faciles" depuis un même navigateur.
+const CLE_RATE_LIMIT_EMAIL = "lcp-email-envois";
+const LIMITE_EMAILS_PAR_HEURE = 3;
+const FENETRE_RATE_LIMIT_MS = 60 * 60 * 1000;
+
+function peutEnvoyerEmail() {
+  let envois = [];
+  try {
+    envois = JSON.parse(localStorage.getItem(CLE_RATE_LIMIT_EMAIL)) || [];
+  } catch {
+    envois = [];
+  }
+  const maintenant = Date.now();
+  envois = envois.filter(t => maintenant - t < FENETRE_RATE_LIMIT_MS);
+  if (envois.length >= LIMITE_EMAILS_PAR_HEURE) {
+    return false;
+  }
+  envois.push(maintenant);
+  try {
+    localStorage.setItem(CLE_RATE_LIMIT_EMAIL, JSON.stringify(envois));
+  } catch {
+    // localStorage indisponible (navigation privée stricte) : on laisse passer,
+    // la réservation elle-même n'est jamais bloquée par ce garde-fou.
+  }
+  return true;
+}
+
 const toggle = document.getElementById("mode-toggle");
 const modeDirect = document.getElementById("mode-direct");
 const modeDemande = document.getElementById("mode-demande");
@@ -231,17 +263,21 @@ form.addEventListener("submit", async (e) => {
     // Envoi de l'e-mail de confirmation (silencieux en cas d'échec :
     // la réservation est déjà enregistrée, l'e-mail est un plus)
     if (window.emailjs && EMAILJS_CONFIG.SERVICE_ID !== "TON_SERVICE_ID") {
-      const trajet = data.mode === "direct"
-        ? volSelect.options[volSelect.selectedIndex].textContent
-        : `${data.depart || "?"} → ${data.arrivee || "?"}`;
-      window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
-        to_email: data.email,
-        to_name: `${data.prenom} ${data.nom}`,
-        trajet: trajet,
-        date_aller: data.dateAller,
-        passagers: data.passagers,
-        mode: data.mode === "direct" ? "Réservation directe" : "Demande sur-mesure"
-      }).catch(err => console.warn("E-mail non envoyé :", err));
+      if (peutEnvoyerEmail()) {
+        const trajet = data.mode === "direct"
+          ? volSelect.options[volSelect.selectedIndex].textContent
+          : `${data.depart || "?"} → ${data.arrivee || "?"}`;
+        window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
+          to_email: data.email,
+          to_name: `${data.prenom} ${data.nom}`,
+          trajet: trajet,
+          date_aller: data.dateAller,
+          passagers: data.passagers,
+          mode: data.mode === "direct" ? "Réservation directe" : "Demande sur-mesure"
+        }).catch(err => console.warn("E-mail non envoyé :", err));
+      } else {
+        console.warn("Limite d'envoi d'e-mails atteinte pour ce navigateur (anti-abus) — réservation tout de même enregistrée.");
+      }
     }
 
     feedback.style.color = "var(--success)";

@@ -1,5 +1,6 @@
 import { lirePanier, modifierQuantite, totalPanier, nombreArticles, prixUnitaire, lienCommandeWhatsApp } from "./cart.js";
 import { showToast } from "./toast.js";
+import { escapeHtml } from "./utils.js";
 
 const toggle = document.getElementById("panier-toggle");
 const overlay = document.getElementById("panier-overlay");
@@ -39,15 +40,15 @@ function rendre() {
     const enGros = item.quantite >= item.qteGros;
     return `
       <div class="panier-item">
-        <img src="${item.image}" alt="${item.nom}" width="56" height="56">
+        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.nom)}" width="56" height="56">
         <div class="panier-item-info">
-          <strong>${item.nom}</strong>
+          <strong>${escapeHtml(item.nom)}</strong>
           <span style="font-size:0.78rem;color:${enGros ? 'var(--success)' : 'var(--text-light)'};">${pu} FCFA${enGros ? " (gros)" : ""}</span>
           <div class="panier-qte">
-            <button class="q-moins" data-nom="${item.nom}">−</button>
+            <button class="q-moins" data-nom="${escapeHtml(item.nom)}">−</button>
             <span>${item.quantite}</span>
-            <button class="q-plus" data-nom="${item.nom}">+</button>
-            <button class="q-suppr" data-nom="${item.nom}" title="Retirer">🗑</button>
+            <button class="q-plus" data-nom="${escapeHtml(item.nom)}">+</button>
+            <button class="q-suppr" data-nom="${escapeHtml(item.nom)}" title="Retirer">🗑</button>
           </div>
         </div>
       </div>

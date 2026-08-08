@@ -135,7 +135,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 76px;
+  height: 96px;
 }
 
 .brand {
@@ -147,13 +147,34 @@ body {
 }
 
 .brand img {
-  width: 48px;
-  height: 48px;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 76px;
+  width: auto;
+  background: transparent;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .brand:hover img {
-  transform: rotate(15deg) scale(1.05);
+  transform: scale(1.04);
+}
+
+/* Deux variantes du logo (couleurs d'origine / recolorée claire), sans fond,
+   basculées selon le thème actif — voir data-theme sur <html>. */
+.brand-logo-dark {
+  display: none;
+}
+
+html[data-theme="dark"] .brand-logo-light {
+  display: none;
+}
+
+html[data-theme="dark"] .brand-logo-dark {
+  display: inline-block;
+}
+
+@media (max-width: 640px) {
+  .brand img {
+    height: 58px;
+  }
 }
 
 .brand-text {
@@ -737,6 +758,14 @@ body.menu-ouvert {
   height: 240px;
   object-fit: cover;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dest-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  font-size: 2.75rem;
 }
 
 .boarding-card:hover .dest-photo {
@@ -1467,7 +1496,7 @@ body.menu-ouvert {
 .hero { min-height: 640px; padding-bottom: 60px; }
 
 @media (max-width: 640px) {
-  .hero { min-height: auto; padding-top: 130px; }
+  .hero { min-height: auto; padding-top: 150px; }
 }
 
 /* ============================================

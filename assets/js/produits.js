@@ -3,6 +3,7 @@ import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/
 import { PRODUITS as PRODUITS_LOCAUX } from "./produits-data.js";
 import { ajouterAuPanier } from "./cart.js";
 import { showToast } from "./toast.js";
+import { escapeHtml } from "./utils.js";
 
 const grid = document.getElementById("produits-grid");
 const catToggle = document.getElementById("cat-toggle");
@@ -28,15 +29,15 @@ function rendreProduits() {
     <article class="nature-card">
       <div class="nature-img" style="background:none;">
   <picture>
-    <source srcset="${cheminImage(p).replace('.jpg','.webp')}" type="image/webp">
-    <img src="${cheminImage(p)}" alt="${p.nom}" style="width:100%;height:100%;object-fit:cover;" width="${p.width||800}" height="${p.height||800}">
+    <source srcset="${escapeHtml(cheminImage(p).replace('.jpg','.webp'))}" type="image/webp">
+    <img src="${escapeHtml(cheminImage(p))}" alt="${escapeHtml(p.nom)}" style="width:100%;height:100%;object-fit:cover;" width="${p.width||800}" height="${p.height||800}">
   </picture>
 </div>
       <div class="nature-body">
         <span class="nature-cat">${p.categorie === "cosmetiques" ? "Cosmétiques & soins" : "Compléments & plantes"}</span>
-        <h3>${p.nom}</h3>
-        <div class="nature-price">${p.prix} FCFA <span style="font-weight:400;font-size:0.75rem;color:var(--text-light);">l'unité</span></div>
-        ${p.prixGros ? `<div style="font-size:0.76rem;color:var(--success);">${p.prixGros} FCFA dès ${p.qteGros} unités (gros)</div>` : ""}
+        <h3>${escapeHtml(p.nom)}</h3>
+        <div class="nature-price">${escapeHtml(p.prix)} FCFA <span style="font-weight:400;font-size:0.75rem;color:var(--text-light);">l'unité</span></div>
+        ${p.prixGros ? `<div style="font-size:0.76rem;color:var(--success);">${escapeHtml(p.prixGros)} FCFA dès ${escapeHtml(p.qteGros)} unités (gros)</div>` : ""}
         <div class="qte-row" style="display:flex;align-items:center;gap:10px;margin-top:12px;">
           <input type="number" min="1" value="1" class="qte-input" data-idx="${i}" style="width:56px;padding:8px;border:1px solid #d8d3c5;border-radius:4px;">
           <button class="btn-ajouter" data-idx="${i}" style="flex:1;background:#3F5F44;color:#fff;border:none;padding:9px 12px;border-radius:4px;font-size:0.82rem;cursor:pointer;">Ajouter au panier</button>
